@@ -63,6 +63,26 @@ const targets = [
     alphaQuality: 100,
   },
   {
+    dir: 'assets/artworks',
+    // Nommé explicitement : le dossier contient aussi le rendu brut de
+    // l'agrandisseur, un PNG de 11,7 Mo qui n'a rien à faire en ligne.
+    file: 'Artwork_Grafenberg.webp',
+    name: 'key-visual',
+    // Bandeau pleine largeur en 2,39:1. 2560 couvre un écran 1440 sans excès ;
+    // au-delà, on paierait des pixels que la compression rend indistincts.
+    widths: [1280, 1920, 2560],
+    quality: 80,
+  },
+  {
+    dir: 'assets/artworks/mobile',
+    file: 'Artwork_Grafenberg.webp',
+    name: 'key-visual-mobile',
+    // Version portrait 9:16, pour les écrans où le cadrage large ne laisserait
+    // qu'une bande de 60 px de haut.
+    widths: [720, 1080],
+    quality: 80,
+  },
+  {
     dir: 'assets/portrait',
     name: 'portrait',
     // Une colonne de 320 px au plus ; 640 la couvre en 2x. Photographie, donc
@@ -72,14 +92,16 @@ const targets = [
   },
 ];
 
-async function encode({ dir, name, widths, quality, alphaQuality }) {
+async function encode({ dir, file: fichier, name, widths, quality, alphaQuality }) {
   const srcDir = resolve(root, dir);
   if (!existsSync(srcDir)) {
     warn(`${dir} est absent — ignoré.`);
     return { before: 0, after: 0 };
   }
 
-  const sources = readdirSync(srcDir).filter((f) => /\.(png|jpe?g|webp)$/i.test(f));
+  const sources = fichier
+    ? [fichier]
+    : readdirSync(srcDir).filter((f) => /\.(png|jpe?g|webp)$/i.test(f));
   if (!sources.length) {
     warn(`aucune image dans ${dir}.`);
     return { before: 0, after: 0 };

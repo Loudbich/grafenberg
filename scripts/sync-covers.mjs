@@ -62,6 +62,51 @@ const FORCE = process.argv.slice(2).includes('--force');
 const CONTENT = { widths: [400, 1000], quality: 88, suffix: '' };
 const BACKGROUND = { widths: [800, 1280], quality: 70, suffix: 'bg' };
 
+const LOCAL_DIR = resolve(root, 'assets/covers');
+
+/**
+ * Les pochettes déposées à la main dans `assets/covers/`.
+ *
+ * Elles y sont rangées par artiste et par disque, avec des noms lisibles —
+ * « Grafenberg x Broken Shaman - Afterimage.webp ». Le rattachement se fait sur
+ * la partie qui suit le dernier tiret, transformée en slug : c'est ce qui
+ * permet de réorganiser les dossiers sans rien casser ici.
+ *
+ * Elles servent de REPLI, non de source principale : ces fichiers font 1000 px
+ * quand Bandcamp sert l'original entre 2000 et 3000. Les préférer dégraderait
+ * le fond du bandeau, qui a besoin de 1280. Elles comptent pour les sorties
+ * qu'aucune plateforme ne couvre.
+ */
+function pochettesLocales() {
+  if (!existsSync(LOCAL_DIR)) return new Map();
+
+  const slugify = (s) =>
+    s
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/['’]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+
+  const trouvees = new Map();
+
+  const parcourir = (dir) => {
+    for (const entree of readdirSync(dir, { withFileTypes: true })) {
+      const chemin = join(dir, entree.name);
+      if (entree.isDirectory()) {
+        parcourir(chemin);
+      } else if (/\.(webp|png|jpe?g)$/i.test(entree.name)) {
+        const titre = entree.name.replace(/\.[^.]+$/, '').split(' - ').pop();
+        trouvees.set(slugify(titre), chemin);
+      }
+    }
+  };
+
+  parcourir(LOCAL_DIR);
+  return trouvees;
+}
+
 const log = (...a) => console.log('[covers]', ...a);
 const warn = (...a) => console.warn('[covers] ⚠ ', ...a);
 const kb = (n) => `${Math.round(n / 1024)} ko`;
@@ -96,6 +141,16 @@ async function main() {
    */
   const previous = existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, 'utf8')) : {};
 
+  const locales = pochettesLocales();
+  if (locales.size) log(`${locales.size} pochette(s) locale(s) dans assets/covers.`);
+
+  // Un fichier local dont le nom ne correspond à aucune sortie est
+  // probablement une faute de frappe ou un disque oublié au manifeste. Le
+  // signaler vaut mieux que de l'ignorer en silence.
+  for (const slug of locales.keys()) {
+    if (!(slug in (releases ?? {}))) warn(`assets/covers : « ${slug} » ne correspond à aucune sortie.`);
+  }
+
   let fetched = 0;
   let skipped = 0;
   let failed = 0;
@@ -116,7 +171,7 @@ async function main() {
     // Halo Corruption Protocol lors de sa republication en Enhanced Edition —
     // l'URL stockée au sync précédent renvoyait 404 sur toutes ses variantes.
     // Sans ce repli, l'album aurait simplement perdu sa pochette.
-    const sources = [entry.artworkHiRes, entry.artwork].filter(Boolean);
+    const sources = [entry.artworkHiRes, locales.get(slug), entry.artwork].filter(Boolean);
 
     if (!sources.length) {
       warn(`${slug} : aucune pochette disponible.`);
@@ -143,19 +198,30 @@ async function main() {
     try {
       let sourceBuffer = null;
       let usedFallback = false;
+      let origine = 'inconnue';
 
       for (const [i, url] of sources.entries()) {
         try {
-          const res = await fetch(url);
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          sourceBuffer = Buffer.from(await res.arrayBuffer());
+          // Un chemin de fichier se lit, il ne se télécharge pas.
+          if (!/^https?:/.test(url)) {
+            sourceBuffer = readFileSync(url);
+          } else {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            sourceBuffer = Buffer.from(await res.arrayBuffer());
+          }
           usedFallback = i > 0;
+          origine = /^https?:/.test(url)
+            ? url.includes('bcbits')
+              ? 'bandcamp'
+              : 'soundcloud'
+            : 'local';
           break;
         } catch (err) {
           // Le dernier échec est relancé plus bas ; les précédents sont juste
           // signalés, puisqu'une autre source reste à essayer.
           if (i === sources.length - 1) throw err;
-          warn(`${slug} : source haute résolution indisponible (${err.message}), repli sur SoundCloud.`);
+          warn(`${slug} : source indisponible (${err.message}), repli sur la suivante.`);
         }
       }
 
@@ -193,7 +259,6 @@ async function main() {
       }
 
       fetched++;
-      const origine = entry.artworkHiRes && !usedFallback ? 'bandcamp' : 'soundcloud';
       log(`${slug} [${origine}] — ${sizes.join(', ')}`);
     } catch (err) {
       // Une pochette manquante ne doit pas coûter les treize autres.

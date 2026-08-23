@@ -8,6 +8,7 @@ import CursorTrail from '@/components/CursorTrail';
 import Seo from '@/components/Seo';
 import { homeSeo } from '@/lib/seo';
 import VinylPurchase from '@/components/VinylPurchase';
+import KeyVisual from '@/components/KeyVisual';
 import { links, onVinyl } from '@/data/catalog';
 import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 
@@ -44,6 +45,10 @@ const Home = () => {
         {onVinyl.map((release) => (
           <VinylPurchase key={release.slug} release={release} />
         ))}
+
+        {/* Le visuel clé ouvre la section artiste : on voit les deux personnes
+            avant de lire qui elles sont. */}
+        <KeyVisual />
 
         <Artist />
 

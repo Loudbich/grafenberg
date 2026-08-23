@@ -169,6 +169,31 @@ async function main() {
   }
 
   const catalogue = {};
+
+  /**
+   * Les sorties publiées hors SoundCloud.
+   *
+   * `Circuits in Silence` n'existe que sur Bandcamp : sans cette passe, elle
+   * n'entrait pas au catalogue et n'avait donc aucune pochette — la grille lui
+   * affichait son bloc de repli. Le manifeste la décrit pourtant comme les
+   * autres ; ce n'est pas parce qu'une plateforme l'ignore qu'elle doit
+   * disparaître du site.
+   */
+  for (const release of allReleases) {
+    if (release.soundcloud || !release.bandcamp) continue;
+    catalogue[release.slug] = {
+      soundcloudId: null,
+      soundcloudUrl: null,
+      date: release.date ?? null,
+      dateFromSoundCloud: null,
+      artwork: null,
+      artworkHiRes: hiRes.get(release.slug) ?? null,
+      trackCount: null,
+      description: '',
+      tracklist: [],
+    };
+  }
+
   for (const [release, set] of matched) {
     catalogue[release.slug] = {
       soundcloudId: set.id,
@@ -195,7 +220,13 @@ async function main() {
     releases: catalogue,
   };
 
-  const summary = `${payload.releaseCount}/${wanted.size} sorties hydratées`;
+  // Deux nombres distincts : ce que SoundCloud a fourni, et ce que le catalogue
+  // contient au total — les sorties publiées hors SoundCloud s'y ajoutent sans
+  // être « hydratées ».
+  const horsSoundCloud = payload.releaseCount - matched.length;
+  const summary =
+    `${matched.length}/${wanted.size} sorties hydratées` +
+    (horsSoundCloud ? `, ${horsSoundCloud} hors SoundCloud` : '');
 
   if (DRY) {
     log(`[--dry] ${summary} — rien n'a été écrit.`);

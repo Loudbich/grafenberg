@@ -31,3 +31,8 @@ dist-ssr
 
 # Cache incrémental de TypeScript.
 *.tsbuildinfo
+
+# Rendu brut de l'agrandisseur : 11,7 Mo, déjà encodé en 242 ko dans
+# assets/artworks/mobile/Artwork_Grafenberg.webp. Le versionner alourdirait
+# l'historique pour toujours, sans que le site s'en serve.
+assets/artworks/mobile/magnifics_upscale-*.png

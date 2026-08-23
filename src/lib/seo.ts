@@ -20,7 +20,7 @@
  * -----------------------------------------------------------------------------
  */
 
-import { albums, catalogue, kindLabels, latest, links, taglineOf, type Release } from '@/data/catalog';
+import { albums, catalogue, kindLabels, links, taglineOf, type Release } from '@/data/catalog';
 
 /** L'origine publique. Sans barre oblique finale. */
 export const BASE_URL = 'https://www.grafenberg.ovh';
@@ -51,8 +51,16 @@ const abs = (path: string) => `${BASE_URL}${canonicalPath(path)}`;
 const assetUrl = (path: string) =>
   /^https?:\/\//.test(path) ? path : `${BASE_URL}${path.startsWith('/') ? '' : '/'}${path}`;
 
-/** L'image de partage par défaut : la pochette de la sortie la plus récente. */
-export const SHARE_IMAGE = latest.cover ?? '/covers/chrome-syndicate-dreams.webp';
+/**
+ * L'image de partage par défaut, pour les pages qui n'en ont pas.
+ *
+ * Le visuel clé plutôt que la pochette du dernier album : il montre Grafenberg
+ * et Nyla Vey, porte le lettrage, et son cadrage 2,39:1 tient dans la vignette
+ * des réseaux sociaux sans être rogné — là où une pochette carrée y est
+ * amputée en haut et en bas. Les pages d'album gardent la leur, qui est
+ * évidemment le bon visuel pour elles.
+ */
+export const SHARE_IMAGE = '/brand/key-visual-1280.webp';
 
 /**
  * Identifiants stables des entités.

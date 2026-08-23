@@ -1,4 +1,27 @@
 {
+  "circuits-in-silence": {
+    "source": "https://f4.bcbits.com/img/a4255788685_0.jpg",
+    "content": [
+      {
+        "file": "circuits-in-silence-400.webp",
+        "w": 400
+      },
+      {
+        "file": "circuits-in-silence.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "circuits-in-silence-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "circuits-in-silence-bg.webp",
+        "w": 1280
+      }
+    ]
+  },
   "chrome-syndicate-dreams": {
     "source": "https://f4.bcbits.com/img/a3459493324_0.jpg",
     "content": [
