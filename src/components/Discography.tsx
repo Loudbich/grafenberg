@@ -13,7 +13,7 @@ const Discography = () => (
   <section id="discography" className="relative px-6 py-24">
     <div className="from-deep via-surface/10 to-deep absolute inset-0 bg-gradient-to-b" />
 
-    <div className="relative z-10 container mx-auto max-w-6xl">
+    <div data-reveal className="relative z-10 container mx-auto max-w-6xl">
       <div className="mb-16 text-center">
         <h2 className="font-orbitron text-gradient-neon mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
           Discography

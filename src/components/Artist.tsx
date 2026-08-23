@@ -79,7 +79,7 @@ const Artist = () => (
   <section id="artist" className="relative px-6 py-24">
     <div className="from-deep via-surface/10 to-deep absolute inset-0 bg-gradient-to-b" />
 
-    <div className="relative z-10 container mx-auto max-w-6xl">
+    <div data-reveal className="relative z-10 container mx-auto max-w-6xl">
       <div className="mb-16 text-center">
         <p className="text-neon-cyan font-orbitron mb-4 text-sm uppercase tracking-[0.3em]">
           From the DJ booths of the 1990s to the sonic worlds of the 2020s

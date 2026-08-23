@@ -138,7 +138,10 @@ export const releases: CuratedRelease[] = [
     soundcloud: 'the-halo-corruption-protocol',
     bandcamp: 'https://kineticdistro.bandcamp.com/album/the-halo-corruption-protocol',
     accent: 'violet',
-    date: '2026-02-23',
+    // Sortie Bandcamp du 26/02/2026, SoundCloud une semaine plus tard. C'est la
+    // première qui fait foi ici — la date d'un disque est celle de sa parution,
+    // pas celle de sa mise en ligne sur telle ou telle plateforme.
+    date: '2026-02-26',
   },
   {
     slug: 'erebions-dominion',

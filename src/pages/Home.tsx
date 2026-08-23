@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import MainNavbar from '@/components/MainNavbar';
 import AlbumHeroCarousel from '@/components/AlbumHeroCarousel';
 import Discography from '@/components/Discography';
@@ -10,6 +9,7 @@ import Seo from '@/components/Seo';
 import { homeSeo } from '@/lib/seo';
 import VinylPurchase from '@/components/VinylPurchase';
 import { links, onVinyl } from '@/data/catalog';
+import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 
 /**
  * L'écran de chargement a été retiré.
@@ -24,31 +24,7 @@ import { links, onVinyl } from '@/data/catalog';
  * correspondaient plus.
  */
 const Home = () => {
-  useEffect(() => {
-    // Animation d'apparition au défilement.
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add('animate-slide-up');
-          entry.target.classList.remove('opacity-0', 'translate-y-8');
-          // Une fois la section apparue, il n'y a plus rien à observer : sans
-          // cela, l'observateur continue de rapporter à chaque défilement pour
-          // des éléments dont l'animation est déjà jouée.
-          observer.unobserve(entry.target);
-        });
-      },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' },
-    );
-
-    const sections = document.querySelectorAll('section > div');
-    sections.forEach((section) => {
-      section.classList.add('opacity-0', 'translate-y-8');
-      observer.observe(section);
-    });
-
-    return () => observer.disconnect();
-  }, []);
+  useRevealOnScroll();
 
   return (
     <div className="bg-deep min-h-screen overflow-x-hidden">
@@ -74,7 +50,7 @@ const Home = () => {
         <section id="contact" className="relative px-6 py-24">
           <div className="from-deep via-surface/5 to-deep absolute inset-0 bg-gradient-to-t" />
 
-          <div className="relative z-10 container mx-auto max-w-4xl text-center">
+          <div data-reveal className="relative z-10 container mx-auto max-w-4xl text-center">
             <h2 className="font-orbitron text-gradient-cyber mb-6 text-4xl font-bold md:text-5xl">
               Follow Grafenberg
             </h2>

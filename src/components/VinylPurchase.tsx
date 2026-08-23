@@ -85,7 +85,7 @@ const VinylPurchase = ({ release, variant = 'section' }: VinylPurchaseProps) => 
     <section className="relative py-16 md:py-24 px-6">
       <div className="absolute inset-0 bg-gradient-to-b from-deep via-amber-950/5 to-deep" />
       
-      <div className="relative z-10 container mx-auto max-w-5xl">
+      <div data-reveal className="relative z-10 container mx-auto max-w-5xl">
         <div className="glass rounded-3xl p-8 md:p-12 border border-amber-500/20 bg-gradient-to-br from-amber-950/30 via-black/40 to-amber-950/10 hover:border-amber-400/40 transition-all duration-500 group overflow-hidden">
           {/* Background decorative elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl" />
