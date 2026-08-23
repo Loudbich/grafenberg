@@ -1,164 +1,182 @@
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Music2, Zap, Headphones, Star } from 'lucide-react';
+import { Mic2, Users, Disc3, Compass } from 'lucide-react';
 import portrait from '@/assets/PP.png';
+import { links } from '@/data/catalog';
 
-const Artist = () => {
-  const highlights = [
-    {
-      icon: Music2,
-      title: 'Electronic Producer',
-      description: 'Creating immersive synthwave soundscapes',
-      color: "neon-orange",
-      glow: "glow-orange"
-    },
-    {
-      icon: Zap,
-      title: 'Sound Designer',
-      description: 'Crafting unique digital atmospheres',
-      color: "neon-cyan",
-      glow: "glow-cyan"
-    },
-    {
-      icon: Headphones,
-      title: 'Mixing Engineer',
-      description: 'Precision audio engineering and mastering',
-      color: "neon-magenta",
-      glow: "glow-magenta"
-    },
-    {
-      icon: Star,
-      title: 'Creative Vision',
-      description: 'Blending retro aesthetics with modern production',
-      color: "neon-violet",
-      glow: "glow-violet"
-    }
-  ];
+/**
+ * L'artiste.
+ *
+ * Les quatre encarts ne listent plus des compétences génériques — « Mixing
+ * Engineer », « Creative Vision » — mais les quatre versants réels du projet
+ * décrits dans la biographie : la chanteuse permanente, les collaborations, la
+ * production pour d'autres, la direction du label. Ils disaient auparavant ce
+ * que fait n'importe quel producteur ; ils disent maintenant ce que fait
+ * celui-ci.
+ *
+ * Leurs classes de couleur sont écrites en toutes lettres. La version
+ * précédente les composait (`bg-${color}/10`, `text-${color}`), ce que Tailwind
+ * ne peut pas voir : aucune de ces classes n'existait dans le CSS produit, et
+ * les icônes étaient rendues sans couleur depuis le début.
+ */
 
-  return (
-    <section id="artist" className="relative py-24 px-6">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-deep via-surface/10 to-deep" />
-      
-      <div className="relative z-10 container mx-auto max-w-6xl">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="font-orbitron font-bold text-4xl md:text-5xl lg:text-6xl mb-6 text-gradient-cyber">
-            The Artist
-          </h2>
-          <div className="waveform max-w-xs mx-auto mb-6" />
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Meet the creative mind behind the synthwave experience
+const facets = [
+  {
+    icon: Mic2,
+    title: 'Nyla Vey',
+    description:
+      'The permanent voice of the solo work — intimacy, seduction and controlled intensity, not a guest feature.',
+    card: 'hover:bg-neon-magenta/5 hover:glow-magenta',
+    chip: 'bg-neon-magenta/10 border-neon-magenta/30 group-hover:bg-neon-magenta/20',
+    icon_color: 'text-neon-magenta',
+  },
+  {
+    icon: Users,
+    title: 'Broken Shaman',
+    description:
+      'Two collaborative albums where electronic architecture meets fractured hip-hop and urban soul.',
+    card: 'hover:bg-neon-cyan/5 hover:glow-cyan',
+    chip: 'bg-neon-cyan/10 border-neon-cyan/30 group-hover:bg-neon-cyan/20',
+    icon_color: 'text-neon-cyan',
+  },
+  {
+    icon: Disc3,
+    title: 'Producing others',
+    description:
+      "Hollow Static's debut album, and further passages into darker club territory with Chromabone.",
+    card: 'hover:bg-neon-violet/5 hover:glow-violet',
+    chip: 'bg-neon-violet/10 border-neon-violet/30 group-hover:bg-neon-violet/20',
+    icon_color: 'text-neon-violet',
+  },
+  {
+    icon: Compass,
+    title: 'Kinetic Distro',
+    description:
+      'Artistic director of the label — connecting artists, records and visual identities into one universe.',
+    card: 'hover:bg-neon-orange/5 hover:glow-orange',
+    chip: 'bg-neon-orange/10 border-neon-orange/30 group-hover:bg-neon-orange/20',
+    icon_color: 'text-neon-orange',
+  },
+];
+
+/**
+ * La biographie, en paragraphes.
+ *
+ * Un tableau plutôt qu'un bloc de JSX : le texte se relit et se remplace sans
+ * traverser le balisage, et les paragraphes restent des paragraphes plutôt
+ * qu'un `<p>` unique coupé par des `<br/>`.
+ */
+const biography = [
+  'Grafenberg has never followed a straight line.',
+  'The story began behind the decks in the 1990s, in a culture where music was discovered physically, built through instinct and tested directly against a moving crowd. Long before algorithms began defining taste, Grafenberg learned how rhythm could alter a room, how tension could be sustained and how a single transition could open the door to another world.',
+  'In the early 2000s, Grafenberg released a series of electronic EPs through the Traumwelten label. These first recordings established the foundations of an artistic language already driven by atmosphere, movement and emotional contrast.',
+  'Grafenberg re-emerged in the 2020s not as a nostalgia project, but as a producer, composer and world-builder without borders.',
+  'Across eight solo albums, the project has continuously evolved, moving through French touch, synthwave, cosmic disco, cinematic electronica, alternative pop and darker forms of club music. Genres are treated as raw materials rather than boundaries. Analog warmth can collide with digital tension. A euphoric bassline can carry a trace of melancholy. A dance track can become a scene from a film that has never existed.',
+  'At the heart of Grafenberg’s solo work stands Nyla Vey, the project’s permanent singer and privileged collaborator. Her voice gives a human presence to Grafenberg’s shifting electronic landscapes, moving between intimacy, seduction, vulnerability and controlled intensity. She is not simply a featured vocalist, but an essential part of the project’s identity.',
+  'Grafenberg’s universe extends far beyond the solo discography. Two collaborative albums with Broken Shaman brought electronic architecture into contact with fractured hip-hop, cinematic production and urban soul. Grafenberg also produced the debut album by Hollow Static, helping to shape its world of impossible memories, emotional distortion and invented lives. Collaborations with Chromabone have opened further passages into darker club environments, corrupted signals and radical reinterpretations.',
+  'As artistic director and mastermind of Kinetic Distro, Grafenberg connects artists, records, characters and visual identities into a constantly expanding creative universe. The role is not merely to produce music, but to recognise what each project could become and help it find its own language.',
+  'Yet behind the producer, the curator and the architect, Grafenberg remains an artist first. A music lover still driven by the same impulse that existed behind the decks in the 1990s: the search for the next sound, the next emotion and the next door waiting to be opened.',
+];
+
+const Artist = () => (
+  <section id="artist" className="relative px-6 py-24">
+    <div className="from-deep via-surface/10 to-deep absolute inset-0 bg-gradient-to-b" />
+
+    <div className="relative z-10 container mx-auto max-w-6xl">
+      <div className="mb-16 text-center">
+        <p className="text-neon-cyan font-orbitron mb-4 text-sm uppercase tracking-[0.3em]">
+          From the DJ booths of the 1990s to the sonic worlds of the 2020s
+        </p>
+        <h2 className="font-orbitron text-gradient-neon mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
+          The Artist
+        </h2>
+        <div className="waveform mx-auto max-w-xs" />
+      </div>
+
+      <div className="grid items-start gap-12 lg:grid-cols-[320px_1fr]">
+        <div className="mx-auto w-full max-w-[320px]">
+          <div className="glass hover:glow-cyan rounded-2xl p-3 transition-all duration-500">
+            <img
+              src={portrait}
+              alt="Grafenberg"
+              width={640}
+              height={640}
+              loading="lazy"
+              className="w-full rounded-xl object-cover"
+            />
+          </div>
+          <div className="mt-6 text-center">
+            <h3 className="font-orbitron text-foreground text-2xl font-bold">Ludovic Debay</h3>
+            <p className="text-muted-foreground mt-1 text-sm uppercase tracking-widest">
+              alias Grafenberg
+            </p>
+          </div>
+        </div>
+
+        <div className="space-y-5">
+          {biography.map((paragraph) => (
+            <p key={paragraph.slice(0, 40)} className="text-muted-foreground leading-relaxed">
+              {paragraph}
+            </p>
+          ))}
+
+          {/* La chute de la biographie, détachée du corps parce qu'elle est
+              écrite comme une signature et non comme un paragraphe. */}
+          <p className="font-orbitron text-gradient-cyber pt-2 text-xl font-bold leading-snug">
+            Grafenberg does not simply release records.
+            <br />
+            Grafenberg builds worlds through sound.
           </p>
         </div>
+      </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Artist Image */}
-          <div className="order-2 lg:order-1">
-            <div className="relative">
-              <div className="glass rounded-2xl p-4 hover:glow-violet transition-all duration-500">
-                <img 
-                  src={portrait}
-                  alt="Ludovic Debay - Grafenberg" 
-                  className="w-full h-auto rounded-xl object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-deep/60 via-transparent to-transparent rounded-2xl pointer-events-none" />
-              </div>
-              {/* Floating elements */}
-              <div className="absolute -top-4 -right-4 w-8 h-8 bg-neon-cyan/20 rounded-full blur-sm animate-pulse" />
-              <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-neon-orange/20 rounded-full blur-sm animate-pulse" style={{ animationDelay: '1s' }} />
-            </div>
-          </div>
+      <div className="mt-20">
+        <h3 className="font-orbitron text-gradient-cyber mb-8 text-center text-2xl font-bold md:text-3xl">
+          The wider universe
+        </h3>
 
-          {/* Artist Info */}
-          <div className="space-y-8 order-1 lg:order-2">
-            <div className="glass rounded-2xl p-8 hover:glow-cyan transition-all duration-500">
-              <h3 className="font-orbitron font-bold text-3xl md:text-4xl mb-4 text-gradient-neon">
-                Ludovic Debay
-              </h3>
-              <p className="text-lg text-neon-cyan mb-6 font-medium">
-                Alias <span className="text-neon-orange">GRAFENBERG</span>
-              </p>
-              
-              <div className="space-y-4 text-muted-foreground leading-relaxed">
-                <p>
-                  Grafenberg is a sonic explorer whose path spans from the DJ booth to the edges of contemporary electronic production. After two decades of collecting and spinning techno, minimal and deep underground records, he transformed that passion into a personal language of textures and contrasts.
-                </p>
-                <p>
-                  His debut EP on Traumwelten was both a tribute to the artists who shaped him and a declaration of his own voice. Since then, Grafenberg has expanded his sound, weaving deep techno foundations with cinematic atmospheres, hypnotic grooves, and moog-driven nostalgia.
-                </p>
-                <p>
-                  In 2025, Grafenberg released “No Saints, No Proof”, an album that pushes his music into new emotional and conceptual territory—blurring the line between the dancefloor and inner reflection. Looking ahead, his upcoming project “Erebion’s Dominion” promises to further expand this vision, unfolding as a narrative between cosmic darkness and redemptive light.
-                </p>
-                <p>
-                  Forever chasing innovation and raw emotion, Grafenberg bridges the legacy of techno with new horizons, where every note tells a fragment of dream or utopia.
-                </p>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {facets.map(({ icon: Icon, title, description, card, chip, icon_color }) => (
+            <div
+              key={title}
+              className={`glass group rounded-xl p-6 transition-all duration-500 hover:-translate-y-2 ${card}`}
+            >
+              <div className={`mb-4 w-fit rounded-lg border p-3 transition-colors duration-300 ${chip}`}>
+                <Icon className={`h-6 w-6 ${icon_color}`} aria-hidden="true" />
               </div>
+              <h4 className="font-orbitron text-foreground mb-2 text-lg font-bold">{title}</h4>
+              <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
             </div>
-          </div>
+          ))}
         </div>
+      </div>
 
-        {/* Highlights Grid */}
-        <div className="mt-16">
-          <h3 className="font-orbitron font-bold text-2xl md:text-3xl mb-8 text-center text-gradient-cyber">
-            Expertise & Skills
+      <div className="mt-16 text-center">
+        <div className="glass hover:glow-orange mx-auto max-w-2xl rounded-2xl p-8 transition-all duration-500">
+          <h3 className="font-orbitron text-gradient-neon mb-4 text-2xl font-bold">
+            Follow the journey
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {highlights.map((highlight, index) => {
-              const IconComponent = highlight.icon;
-              return (
-                <div
-                  key={index}
-                  className={`glass rounded-xl p-6 transition-all duration-500 transform hover:-translate-y-2 group ${
-                    highlight.color === 'neon-orange' ? 'hover:bg-neon-orange/5 hover:glow-orange' :
-                    highlight.color === 'neon-cyan' ? 'hover:bg-neon-cyan/5 hover:glow-cyan' :
-                    highlight.color === 'neon-magenta' ? 'hover:bg-neon-magenta/5 hover:glow-magenta' :
-                    'hover:bg-neon-violet/5 hover:glow-violet'
-                  }`}
-                  style={{
-                    animationDelay: `${index * 0.1}s`
-                  }}
-                >
-                  <div className="flex items-center mb-4">
-                    <div className={`p-3 bg-${highlight.color}/10 border border-${highlight.color}/30 rounded-lg group-hover:bg-${highlight.color}/20 transition-colors duration-300`}>
-                      <IconComponent className={`w-6 h-6 text-${highlight.color}`} />
-                    </div>
-                  </div>
-                  <h4 className="font-orbitron font-bold text-lg text-foreground group-hover:text-white transition-colors duration-300 mb-2">
-                    {highlight.title}
-                  </h4>
-                  <p className="text-muted-foreground group-hover:text-foreground/90 text-sm leading-relaxed transition-colors duration-300">
-                    {highlight.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Call to Action */}
-        <div className="text-center mt-16">
-          <div className="glass rounded-2xl p-8 max-w-2xl mx-auto hover:glow-orange transition-all duration-500">
-            <h3 className="font-orbitron font-bold text-2xl mb-4 text-gradient-neon">
-              Connect and follow the journey
-            </h3>
-            <p className="text-muted-foreground mb-6 text-lg">
-              Follow the creative process and discover new releases
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <a
-                href="#contact"
-                className="glass px-6 py-3 rounded-xl border-neon-orange/30 text-neon-orange hover:bg-neon-orange/10 hover-glow-orange transition-all duration-300 font-semibold"
-              >
-                <Music2 className="w-5 h-5 inline mr-2" />
-                Follow on Platforms
-              </a>
-            </div>
+          <p className="text-muted-foreground mb-6 text-lg">
+            New releases, collaborations and the label’s wider roster.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <a
+              href="#contact"
+              className="glass border-neon-orange/30 text-neon-orange hover:bg-neon-orange/10 hover-glow-orange rounded-xl border px-6 py-3 font-semibold transition-all duration-300"
+            >
+              Listening links
+            </a>
+            <a
+              href={links.label}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="glass border-neon-cyan/30 text-neon-cyan hover:bg-neon-cyan/10 hover-glow-cyan rounded-xl border px-6 py-3 font-semibold transition-all duration-300"
+            >
+              Kinetic Distro
+            </a>
           </div>
         </div>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default Artist;

@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Bundle SSR : artefact intermédiaire du prérendu, supprimé en fin de build.
+dist-ssr
+
+# Configuration de lancement locale de l'agent.
+.claude

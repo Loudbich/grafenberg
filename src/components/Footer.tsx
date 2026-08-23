@@ -45,15 +45,14 @@ const Footer = () => {
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
               <span>Made with</span>
               <Heart className="h-4 w-4 text-neon-magenta animate-pulse" />
-              <span>for the synthwave community</span>
+              <span>in France</span>
             </div>
           </div>
           
           {/* Additional Info */}
           <div className="mt-6 text-center">
             <p className="text-xs text-muted-foreground/70">
-              Experience the full album across all major streaming platforms.
-              Support independent electronic music.
+              Released by Kinetic Distro. Support independent electronic music.
             </p>
           </div>
         </div>

@@ -1,10 +1,12 @@
 name: Deploy to GitHub Pages
 
+# Uniquement sur main. Le déclencheur `pull_request` d'origine lançait un
+# déploiement Pages depuis chaque PR — un job qui ne peut pas aboutir, puisque
+# l'environnement Pages n'accepte que la branche par défaut.
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -22,7 +24,9 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        # 22 et non 18 : `npm run sync` importe le manifeste TypeScript
+        # directement, ce que Node ne sait faire qu'à partir de 22.18.
+        node-version: '22'
         cache: 'npm'
 
     - name: Install dependencies
