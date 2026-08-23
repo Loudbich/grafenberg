@@ -17,6 +17,7 @@
  */
 
 import generated from './catalog.generated.json';
+import coverManifest from './covers.generated.json';
 import {
   releases as curatedAlbums,
   secondaryReleases as curatedSecondary,
@@ -36,15 +37,19 @@ export type Release = CuratedRelease & {
   cover?: string;
   /** Les deux largeurs de la pochette locale, pour l'attribut srcset. */
   coverSrcSet?: string;
-  /**
-   * La petite variante seule, pour les usages purement décoratifs.
-   *
-   * Le fond du bandeau d'accueil est une pochette étirée en pleine largeur sous
-   * une vignette, un dégradé et des scanlines : aucun détail n'en ressort. Il
-   * chargeait pourtant le fichier de 1000 px — trois fois de suite, la rotation
-   * du carrousel les demandant tous. 600 ko pour ce que personne ne regarde.
-   */
+  /** La petite variante seule, pour les vignettes de quelques dizaines de px. */
   coverSmall?: string;
+  /**
+   * La pochette en version fond de bandeau : plus grande et plus compressée.
+   *
+   * Le bandeau d'accueil étire la pochette sur toute la largeur de l'écran, ce
+   * qui en fait l'usage le plus exigeant en dimensions du site — et le plus
+   * indulgent en qualité, puisqu'une vignette, un dégradé et des scanlines
+   * passent par-dessus. Ces fichiers sont donc encodés à part, en 800, 1280 et
+   * 1920 px à qualité réduite.
+   */
+  background?: string;
+  backgroundSrcSet?: string;
   trackCount?: number;
   tracklist: string[];
   /** Texte de présentation SoundCloud, tel quel. Peut être vide. */
@@ -73,21 +78,43 @@ const synced = (generated as { releases?: Record<string, GeneratedEntry> }).rele
  *
  * Référencées par URL et non importées : `public/` est copié verbatim par Vite,
  * et un `import.meta.glob` dessus produirait un second exemplaire de chaque
- * fichier dans `assets/`, haché — les mêmes 2,9 Mo livrés deux fois.
+ * fichier dans `assets/`, haché — les mêmes mégaoctets livrés deux fois.
  *
- * Une sortie a une pochette locale si et seulement si le sync lui en a trouvé
- * une : `sync-covers` traite exactement les entrées du catalogue généré. Le
- * champ `artwork` est donc l'indicateur fiable, sans avoir à sonder le disque.
+ * Les largeurs viennent du manifeste que `sync-covers` écrit, et non de
+ * constantes recopiées ici. La différence n'est pas cosmétique : la largeur
+ * demandée n'est pas toujours celle obtenue, puisque l'encodage n'agrandit
+ * jamais une source trop petite. Une pochette limitée aux 1080 px de SoundCloud
+ * produit un fichier de 1080 là où l'on demandait 1280 ; annoncer « 1280w »
+ * conduirait le navigateur à le choisir en le croyant plus défini qu'il n'est,
+ * et à écarter un fichier plus adapté.
  */
-const coverFor = (slug: string, hasArtwork: boolean) =>
-  hasArtwork
-    ? {
-        cover: `/covers/${slug}.webp`,
-        // La grille dessine ~380px, la page d'album ~500. Le navigateur tranche.
-        coverSrcSet: `/covers/${slug}-400.webp 400w, /covers/${slug}.webp 1000w`,
-        coverSmall: `/covers/${slug}-400.webp`,
-      }
-    : {};
+type CoverVariant = { file: string; w: number };
+type CoverEntry = { content?: CoverVariant[]; bg?: CoverVariant[] };
+
+const covers = coverManifest as Record<string, CoverEntry>;
+
+/** `a.webp 400w, b.webp 1000w` — vide s'il n'y a qu'une seule largeur. */
+const srcSetOf = (variants: CoverVariant[] = []) =>
+  variants.length > 1 ? variants.map((v) => `/covers/${v.file} ${v.w}w`).join(', ') : undefined;
+
+/** Le fichier le plus large d'un jeu : celui que `src` doit désigner. */
+const widestOf = (variants: CoverVariant[] = []) =>
+  variants.length ? `/covers/${variants[variants.length - 1].file}` : undefined;
+
+function coverFor(slug: string) {
+  const entry = covers[slug];
+  if (!entry) return {};
+
+  return {
+    cover: widestOf(entry.content),
+    coverSrcSet: srcSetOf(entry.content),
+    // La plus petite variante, pour les vignettes de quelques dizaines de px
+    // — l'étiquette au centre du disque vinyle, notamment.
+    coverSmall: entry.content?.[0] ? `/covers/${entry.content[0].file}` : undefined,
+    background: widestOf(entry.bg),
+    backgroundSrcSet: srcSetOf(entry.bg),
+  };
+}
 
 function merge(entry: CuratedRelease): Release {
   const from = synced[entry.slug];
@@ -98,7 +125,7 @@ function merge(entry: CuratedRelease): Release {
     // un signal de repli. Seul `undefined` déclenche la valeur du sync.
     date: entry.date ?? from?.date ?? undefined,
     artwork: from?.artwork,
-    ...coverFor(entry.slug, Boolean(from?.artwork)),
+    ...coverFor(entry.slug),
     trackCount: from?.trackCount ?? undefined,
     tracklist: from?.tracklist ?? [],
     description: from?.description || undefined,

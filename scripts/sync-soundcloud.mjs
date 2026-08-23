@@ -63,6 +63,30 @@ async function get(url, { timeoutMs = 20000, retries = 2 } = {}) {
   }
 }
 
+/**
+ * L'URL de la pochette en pleine résolution sur Bandcamp.
+ *
+ * SoundCloud plafonne ses artworks à 1080 px, ce qui suffit pour une vignette
+ * mais pas pour le fond du bandeau d'accueil : celui-ci couvre toute la largeur
+ * de l'écran, si bien qu'un carré de 1080 y est agrandi près de deux fois et
+ * que les détails fins s'y écrasent.
+ *
+ * Bandcamp sert l'original — 3000 px dans les cas observés. Les identifiants
+ * d'image y ont la forme `a<chiffres>_<variante>` ; le suffixe `_0` est le
+ * fichier tel qu'il a été téléversé.
+ *
+ * Échoue en douceur : sans Bandcamp, la pochette SoundCloud reste utilisable.
+ */
+async function bandcampArtwork(url) {
+  try {
+    const html = await get(url, { retries: 1 });
+    const id = html.match(/f4\.bcbits\.com\/img\/(a\d+)_/)?.[1];
+    return id ? `https://f4.bcbits.com/img/${id}_0.jpg` : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Le slug est le dernier segment du permalien : /sets/<slug>. */
 const slugOf = (url) => (url || '').split('/sets/')[1]?.split(/[?#]/)[0] ?? null;
 
@@ -132,6 +156,18 @@ async function main() {
     { clientId },
   );
 
+  // Les pochettes haute résolution, cherchées en parallèle : une quinzaine de
+  // pages Bandcamp en séquence coûterait une dizaine de secondes pour rien.
+  const withBandcamp = allReleases.filter((r) => r.bandcamp);
+  const hiRes = new Map();
+  if (withBandcamp.length) {
+    const found = await Promise.all(
+      withBandcamp.map(async (r) => [r.slug, await bandcampArtwork(r.bandcamp)]),
+    );
+    for (const [slug, url] of found) if (url) hiRes.set(slug, url);
+    log(`${hiRes.size}/${withBandcamp.length} pochettes haute résolution trouvées sur Bandcamp.`);
+  }
+
   const catalogue = {};
   for (const [release, set] of matched) {
     catalogue[release.slug] = {
@@ -142,6 +178,9 @@ async function main() {
       date: release.date ?? set.date,
       dateFromSoundCloud: set.date,
       artwork: set.artwork,
+      // La source préférée pour l'encodage : Bandcamp quand il l'a, SoundCloud
+      // sinon. `artwork` est conservé tel quel comme repli.
+      artworkHiRes: hiRes.get(release.slug) ?? null,
       trackCount: set.trackCount,
       description: set.description,
       tracklist: set.tracklist,

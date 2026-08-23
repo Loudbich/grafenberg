@@ -1,0 +1,310 @@
+{
+  "chrome-syndicate-dreams": {
+    "content": [
+      {
+        "file": "chrome-syndicate-dreams-400.webp",
+        "w": 400
+      },
+      {
+        "file": "chrome-syndicate-dreams.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "chrome-syndicate-dreams-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "chrome-syndicate-dreams-bg.webp",
+        "w": 1280
+      }
+    ]
+  },
+  "the-eastern-skylight-tapes": {
+    "content": [
+      {
+        "file": "the-eastern-skylight-tapes-400.webp",
+        "w": 400
+      },
+      {
+        "file": "the-eastern-skylight-tapes.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "the-eastern-skylight-tapes-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "the-eastern-skylight-tapes-bg.webp",
+        "w": 1280
+      }
+    ]
+  },
+  "parallel-sin-theory": {
+    "content": [
+      {
+        "file": "parallel-sin-theory-400.webp",
+        "w": 400
+      },
+      {
+        "file": "parallel-sin-theory.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "parallel-sin-theory-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "parallel-sin-theory-bg.webp",
+        "w": 1280
+      }
+    ]
+  },
+  "the-wounds-of-tomorrow": {
+    "content": [
+      {
+        "file": "the-wounds-of-tomorrow-400.webp",
+        "w": 400
+      },
+      {
+        "file": "the-wounds-of-tomorrow.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "the-wounds-of-tomorrow-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "the-wounds-of-tomorrow-bg.webp",
+        "w": 1280
+      }
+    ]
+  },
+  "ghost-frequencies-for-lost-machines": {
+    "content": [
+      {
+        "file": "ghost-frequencies-for-lost-machines-400.webp",
+        "w": 400
+      },
+      {
+        "file": "ghost-frequencies-for-lost-machines.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "ghost-frequencies-for-lost-machines-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "ghost-frequencies-for-lost-machines-bg.webp",
+        "w": 1280
+      }
+    ]
+  },
+  "afterimage": {
+    "content": [
+      {
+        "file": "afterimage-400.webp",
+        "w": 400
+      },
+      {
+        "file": "afterimage.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "afterimage-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "afterimage-bg.webp",
+        "w": 1280
+      }
+    ]
+  },
+  "the-halo-corruption-protocol": {
+    "content": [
+      {
+        "file": "the-halo-corruption-protocol-400.webp",
+        "w": 400
+      },
+      {
+        "file": "the-halo-corruption-protocol.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "the-halo-corruption-protocol-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "the-halo-corruption-protocol-bg.webp",
+        "w": 1280
+      }
+    ]
+  },
+  "erebions-dominion": {
+    "content": [
+      {
+        "file": "erebions-dominion-400.webp",
+        "w": 400
+      },
+      {
+        "file": "erebions-dominion.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "erebions-dominion-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "erebions-dominion-bg.webp",
+        "w": 1280
+      }
+    ]
+  },
+  "the-error-gospel": {
+    "content": [
+      {
+        "file": "the-error-gospel-400.webp",
+        "w": 400
+      },
+      {
+        "file": "the-error-gospel.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "the-error-gospel-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "the-error-gospel-bg.webp",
+        "w": 1280
+      }
+    ]
+  },
+  "no-saints-no-proof": {
+    "content": [
+      {
+        "file": "no-saints-no-proof-400.webp",
+        "w": 400
+      },
+      {
+        "file": "no-saints-no-proof.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "no-saints-no-proof-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "no-saints-no-proof-bg.webp",
+        "w": 1280
+      }
+    ]
+  },
+  "teopolis-recoded-ep": {
+    "content": [
+      {
+        "file": "teopolis-recoded-ep-400.webp",
+        "w": 400
+      },
+      {
+        "file": "teopolis-recoded-ep.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "teopolis-recoded-ep-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "teopolis-recoded-ep-bg.webp",
+        "w": 1080
+      }
+    ]
+  },
+  "no-saints-no-proof-revisited": {
+    "content": [
+      {
+        "file": "no-saints-no-proof-revisited-400.webp",
+        "w": 400
+      },
+      {
+        "file": "no-saints-no-proof-revisited.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "no-saints-no-proof-revisited-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "no-saints-no-proof-revisited-bg.webp",
+        "w": 1080
+      }
+    ]
+  },
+  "visions": {
+    "content": [
+      {
+        "file": "visions-400.webp",
+        "w": 400
+      },
+      {
+        "file": "visions.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "visions-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "visions-bg.webp",
+        "w": 1080
+      }
+    ]
+  },
+  "chaos-i-bleed-ep": {
+    "content": [
+      {
+        "file": "chaos-i-bleed-ep-400.webp",
+        "w": 400
+      },
+      {
+        "file": "chaos-i-bleed-ep.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "chaos-i-bleed-ep-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "chaos-i-bleed-ep-bg.webp",
+        "w": 1080
+      }
+    ]
+  }
+}

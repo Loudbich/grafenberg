@@ -64,13 +64,15 @@ const AlbumHeroCarousel = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image (always synced with the current album) */}
       <div className="absolute inset-0">
-        {/* La petite variante suffit : cette image est étirée en pleine largeur
-            sous une vignette, un dégradé et des scanlines, et aucun détail n'en
-            ressort. La version 1000 px était chargée pour les trois diapositives
-            — 600 ko pour un fond que personne ne regarde. */}
+        {/* Les fichiers de fond, encodés à part (voir sync-covers.mjs).
+            L'image est carrée et couvre tout l'écran : sur un écran de 1920 px
+            de large, `object-cover` doit la porter à 1920 px. D'où `100vw` —
+            et non la largeur du bloc, qui induirait le navigateur en erreur. */}
         <img
           key={`bg-${currentAlbum.slug}`}
-          src={currentAlbum.coverSmall ?? currentAlbum.cover}
+          src={currentAlbum.background ?? currentAlbum.cover}
+          srcSet={currentAlbum.backgroundSrcSet}
+          sizes="100vw"
           alt=""
           aria-hidden="true"
           className="w-full h-full object-cover"
