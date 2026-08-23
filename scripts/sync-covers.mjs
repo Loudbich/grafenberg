@@ -87,6 +87,15 @@ async function main() {
    */
   const manifest = {};
 
+  /**
+   * Le manifeste du passage précédent, s'il existe.
+   *
+   * Il sert à deux choses : savoir de quelle source vient chaque pochette déjà
+   * encodée — pour détecter qu'elle a été remplacée en amont — et reporter
+   * telles quelles les entrées qu'on ne réencode pas.
+   */
+  const previous = existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, 'utf8')) : {};
+
   let fetched = 0;
   let skipped = 0;
   let failed = 0;
@@ -97,26 +106,58 @@ async function main() {
     // que reçoit un navigateur qui ignore srcset.
     const dest = join(OUT_DIR, `${slug}.webp`);
 
-    // Bandcamp sert l'original — 3000 px — là où SoundCloud plafonne à 1080.
-    // Downsampler depuis 3000 donne un 1600 réellement net ; upsampler depuis
-    // 1080 ne fait qu'inventer des pixels.
-    const sourceUrl = entry.artworkHiRes ?? entry.artwork;
+    // Bandcamp sert l'original — 2000 à 3000 px — là où SoundCloud plafonne à
+    // 1080. Downsampler depuis 3000 donne un 1280 réellement net ; upsampler
+    // depuis 1080 ne fait qu'inventer des pixels.
+    //
+    // SoundCloud reste en repli, et pas seulement quand Bandcamp est absent :
+    // les identifiants d'image Bandcamp changent quand une pochette est
+    // remplacée, et l'ancien disparaît alors complètement. C'est arrivé au
+    // Halo Corruption Protocol lors de sa republication en Enhanced Edition —
+    // l'URL stockée au sync précédent renvoyait 404 sur toutes ses variantes.
+    // Sans ce repli, l'album aurait simplement perdu sa pochette.
+    const sources = [entry.artworkHiRes, entry.artwork].filter(Boolean);
 
-    if (!sourceUrl) {
+    if (!sources.length) {
       warn(`${slug} : aucune pochette disponible.`);
       failed++;
       continue;
     }
 
-    if (existsSync(dest) && !FORCE) {
+    // Sauter ce qui est déjà là, mais seulement si c'est la même image.
+    //
+    // Le seul test d'existence du fichier ne suffisait pas : quand une pochette
+    // est remplacée en amont, le fichier local existe toujours et le script le
+    // gardait — si bien que le sync hebdomadaire n'aurait jamais rafraîchi une
+    // pochette changée, sans rien signaler. Comparer l'URL de la source réglé
+    // le cas, puisqu'un remplacement change toujours l'identifiant.
+    const knownSource = previous[slug]?.source;
+    if (existsSync(dest) && !FORCE && knownSource === sources[0]) {
       skipped++;
+      // Le manifeste doit rester complet même pour ce qui n'est pas réencodé,
+      // sans quoi l'élagage prendrait ces fichiers pour des orphelins.
+      manifest[slug] = previous[slug];
       continue;
     }
 
     try {
-      const res = await fetch(sourceUrl);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const sourceBuffer = Buffer.from(await res.arrayBuffer());
+      let sourceBuffer = null;
+      let usedFallback = false;
+
+      for (const [i, url] of sources.entries()) {
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          sourceBuffer = Buffer.from(await res.arrayBuffer());
+          usedFallback = i > 0;
+          break;
+        } catch (err) {
+          // Le dernier échec est relancé plus bas ; les précédents sont juste
+          // signalés, puisqu'une autre source reste à essayer.
+          if (i === sources.length - 1) throw err;
+          warn(`${slug} : source haute résolution indisponible (${err.message}), repli sur SoundCloud.`);
+        }
+      }
 
       const sizes = [];
       for (const { widths, quality, suffix } of [CONTENT, BACKGROUND]) {
@@ -139,7 +180,10 @@ async function main() {
           sizes.push(`${info.width}px ${kb(info.size)}`);
 
           const kind = suffix || 'content';
-          (manifest[slug] ??= {})[kind] ??= [];
+          // `source` est l'URL demandée en premier, et non celle qui a répondu :
+          // c'est elle qu'on comparera au prochain passage pour savoir si la
+          // pochette a changé en amont.
+          (manifest[slug] ??= { source: sources[0] })[kind] ??= [];
           // Les doublons apparaissent quand deux largeurs demandées dépassent
           // toutes deux la source et retombent sur la même taille réelle.
           if (!manifest[slug][kind].some((v) => v.w === info.width)) {
@@ -149,7 +193,7 @@ async function main() {
       }
 
       fetched++;
-      const origine = entry.artworkHiRes ? 'bandcamp' : 'soundcloud';
+      const origine = entry.artworkHiRes && !usedFallback ? 'bandcamp' : 'soundcloud';
       log(`${slug} [${origine}] — ${sizes.join(', ')}`);
     } catch (err) {
       // Une pochette manquante ne doit pas coûter les treize autres.
@@ -176,8 +220,13 @@ async function main() {
    * pour des orphelins.
    */
   if (FORCE && !failed) {
+    // Nommer les deux jeux plutôt que parcourir toutes les valeurs de l'entrée :
+    // celle-ci porte aussi `source`, une chaîne, dont `.map(v => v.file)` ne
+    // tirerait qu'un `undefined` glissé silencieusement dans l'ensemble.
     const attendus = new Set(
-      Object.values(manifest).flatMap((e) => Object.values(e).flat().map((v) => v.file)),
+      Object.values(manifest).flatMap((e) =>
+        [...(e.content ?? []), ...(e.bg ?? [])].map((v) => v.file),
+      ),
     );
     let elagues = 0;
     for (const file of readdirSync(OUT_DIR)) {

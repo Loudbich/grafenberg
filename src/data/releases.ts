@@ -130,9 +130,12 @@ export const releases: CuratedRelease[] = [
     title: 'The Halo Corruption Protocol',
     artist: 'Grafenberg',
     kind: 'album',
-    // Pas de set « album » sur SoundCloud, seulement la playlist de présentation,
-    // téléversée en lot le 18/04/2026. Date réelle relevée sur Bandcamp.
-    soundcloud: 'grafenberg-the-halo-corruption',
+    // Republié en Enhanced Edition remasterisée sur le compte du label, pour
+    // que l'album cesse de dépendre d'une page tierce. Le set porte donc la
+    // date du 23/08/2026 ; celle retenue ci-dessous reste celle de la sortie
+    // d'origine, relevée sur Bandcamp — c'est le même quatrième album, pas un
+    // nouveau disque, et il garde sa place dans la chronologie.
+    soundcloud: 'the-halo-corruption-protocol',
     bandcamp: 'https://kineticdistro.bandcamp.com/album/the-halo-corruption-protocol',
     accent: 'violet',
     date: '2026-02-23',
