@@ -1,0 +1,120 @@
+{
+  "id": "no-saints-no-proof",
+  "title": "No Saints, No Proof",
+  "artist": "Grafenberg",
+  "releaseDate": "2024",
+  "artwork": "/src/assets/Album_artwork.jpg",
+  "backgroundImage": "/src/assets/Background.jpg",
+  "vinylUrl": "",
+  "theme": "neon",
+  "streamingLinks": {
+    "spotify": "https://open.spotify.com/intl-fr/album/1Rc7HhHY8dFrqlrQePv1TZ",
+    "appleMusic": "https://music.apple.com/fr/album/no-saints-no-proof/1838489546",
+    "deezer": "https://www.deezer.com/en/album/818044871",
+    "bandcamp": "https://grafenbergnoir.bandcamp.com/album/no-saints-no-proof",
+    "amazonMusic": "https://music.amazon.fr/albums/B0FQ6RLCMV",
+    "qobuz": "https://www.qobuz.com/fr-fr/album/no-saints-no-proof-grafenberg/tlegfmeco7l5b"
+  },
+  "tracks": [
+    {
+      "id": "1",
+      "name": "Nazar Engine",
+      "track_number": 1,
+      "duration_ms": 240000,
+      "preview_url": "/audio/NoSaintsNoProof/01 - Nazar Engine.mp3",
+      "image": "/src/assets/Nazar Engine.jpg",
+      "description": "Track description to be filled...",
+      "lyrics": "Track lyrics to be filled..."
+    },
+    {
+      "id": "2",
+      "name": "Pomegranate Static",
+      "track_number": 2,
+      "duration_ms": 220000,
+      "preview_url": "/audio/NoSaintsNoProof/02 - Pomegranate Static.mp3",
+      "image": "/src/assets/Pomegranate Static.jpg",
+      "description": "Track description to be filled...",
+      "lyrics": "Track lyrics to be filled..."
+    },
+    {
+      "id": "3",
+      "name": "Order Eats The Sun",
+      "track_number": 3,
+      "duration_ms": 260000,
+      "preview_url": "/audio/NoSaintsNoProof/03 - Order Eats The Sun.mp3",
+      "image": "/src/assets/Order eats the sun.jpg",
+      "description": "Track description to be filled...",
+      "lyrics": "Track lyrics to be filled..."
+    },
+    {
+      "id": "4",
+      "name": "Tape Ghost Mirage",
+      "track_number": 4,
+      "duration_ms": 230000,
+      "preview_url": "/audio/NoSaintsNoProof/04 - Tape Ghost Mirage.mp3",
+      "image": "/src/assets/Tape Ghost Mirage.jpg",
+      "description": "Track description to be filled...",
+      "lyrics": "Track lyrics to be filled..."
+    },
+    {
+      "id": "5",
+      "name": "Black Salt",
+      "track_number": 5,
+      "duration_ms": 250000,
+      "preview_url": "/audio/NoSaintsNoProof/05 - Black Salt.mp3",
+      "image": "/src/assets/Black Salt.jpg",
+      "description": "Track description to be filled...",
+      "lyrics": "Track lyrics to be filled..."
+    },
+    {
+      "id": "6",
+      "name": "Chrome killim",
+      "track_number": 6,
+      "duration_ms": 270000,
+      "preview_url": "/audio/NoSaintsNoProof/06 - Chrome killim.mp3",
+      "image": "/src/assets/Chrome Killim.jpg",
+      "description": "Track description to be filled...",
+      "lyrics": "Track lyrics to be filled..."
+    },
+    {
+      "id": "7",
+      "name": "Loom of Wires",
+      "track_number": 7,
+      "duration_ms": 240000,
+      "preview_url": "/audio/NoSaintsNoProof/07 -  Loom of Wires.mp3",
+      "image": "/src/assets/Loom of Wires.jpg",
+      "description": "Track description to be filled...",
+      "lyrics": "Track lyrics to be filled..."
+    },
+    {
+      "id": "8",
+      "name": "VHS Desert Prayer",
+      "track_number": 8,
+      "duration_ms": 280000,
+      "preview_url": "/audio/NoSaintsNoProof/08 - VHS Desert Prayer.mp3",
+      "image": "/src/assets/VHS DESERT PRAYER.jpg",
+      "description": "Track description to be filled...",
+      "lyrics": "Track lyrics to be filled..."
+    },
+    {
+      "id": "9",
+      "name": "Motor Moon Communion",
+      "track_number": 9,
+      "duration_ms": 290000,
+      "preview_url": "/audio/NoSaintsNoProof/09 - Motor Moon Communion.mp3",
+      "image": "/src/assets/Motor Moon Communion.jpg",
+      "description": "Track description to be filled...",
+      "lyrics": "Track lyrics to be filled..."
+    },
+    {
+      "id": "10",
+      "name": "Seraph on the Faultline",
+      "track_number": 10,
+      "duration_ms": 310000,
+      "preview_url": "/audio/NoSaintsNoProof/10 - Seraph on the Faultline.mp3",
+      "image": "/src/assets/Seraph on the Faultline.jpg",
+      "description": "Track description to be filled...",
+      "lyrics": "Track lyrics to be filled..."
+    }
+  ]
+}
