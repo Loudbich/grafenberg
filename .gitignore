@@ -28,3 +28,6 @@ dist-ssr
 
 # Configuration de lancement locale de l'agent.
 .claude
+
+# Cache incrémental de TypeScript.
+*.tsbuildinfo
