@@ -19,7 +19,9 @@ interface VinylPurchaseProps {
 
 const VinylPurchase = ({ release, variant = 'section' }: VinylPurchaseProps) => {
   const albumName = release.title;
-  const albumImage = release.cover;
+  // La petite variante : cette pochette sert d'étiquette au centre du disque,
+  // dessinée à ~75 px. Le fichier de 1000 px y était chargé en entier.
+  const albumImage = release.coverSmall ?? release.cover;
   const purchaseUrl = release.vinyl;
 
   // Pas de pressage, pas de section. C'est ce qui permet de poser ce composant

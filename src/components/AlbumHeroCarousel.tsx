@@ -64,9 +64,13 @@ const AlbumHeroCarousel = () => {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image (always synced with the current album) */}
       <div className="absolute inset-0">
+        {/* La petite variante suffit : cette image est étirée en pleine largeur
+            sous une vignette, un dégradé et des scanlines, et aucun détail n'en
+            ressort. La version 1000 px était chargée pour les trois diapositives
+            — 600 ko pour un fond que personne ne regarde. */}
         <img
           key={`bg-${currentAlbum.slug}`}
-          src={currentAlbum.cover}
+          src={currentAlbum.coverSmall ?? currentAlbum.cover}
           alt=""
           aria-hidden="true"
           className="w-full h-full object-cover"

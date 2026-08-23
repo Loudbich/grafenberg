@@ -27,8 +27,11 @@ export default {
         '3xl': '1920px',
       },
       fontFamily: {
-        orbitron: ['Orbitron', 'monospace'],
-        inter: ['Inter', 'sans-serif'],
+        // Les noms sont ceux que @fontsource enregistre : le paquet variable
+        // d'Inter déclare « Inter Variable », pas « Inter ». Écrire « Inter »
+        // ici retomberait silencieusement sur la police système.
+        orbitron: ['Orbitron', 'ui-monospace', 'monospace'],
+        inter: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
         // Synthwave neon palette

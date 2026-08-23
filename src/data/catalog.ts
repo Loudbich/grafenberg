@@ -36,6 +36,15 @@ export type Release = CuratedRelease & {
   cover?: string;
   /** Les deux largeurs de la pochette locale, pour l'attribut srcset. */
   coverSrcSet?: string;
+  /**
+   * La petite variante seule, pour les usages purement décoratifs.
+   *
+   * Le fond du bandeau d'accueil est une pochette étirée en pleine largeur sous
+   * une vignette, un dégradé et des scanlines : aucun détail n'en ressort. Il
+   * chargeait pourtant le fichier de 1000 px — trois fois de suite, la rotation
+   * du carrousel les demandant tous. 600 ko pour ce que personne ne regarde.
+   */
+  coverSmall?: string;
   trackCount?: number;
   tracklist: string[];
   /** Texte de présentation SoundCloud, tel quel. Peut être vide. */
@@ -76,6 +85,7 @@ const coverFor = (slug: string, hasArtwork: boolean) =>
         cover: `/covers/${slug}.webp`,
         // La grille dessine ~380px, la page d'album ~500. Le navigateur tranche.
         coverSrcSet: `/covers/${slug}-400.webp 400w, /covers/${slug}.webp 1000w`,
+        coverSmall: `/covers/${slug}-400.webp`,
       }
     : {};
 

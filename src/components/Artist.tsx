@@ -1,5 +1,4 @@
 import { Mic2, Users, Disc3, Compass } from 'lucide-react';
-import portrait from '@/assets/PP.png';
 import { links } from '@/data/catalog';
 
 /**
@@ -94,11 +93,15 @@ const Artist = () => (
       <div className="grid items-start gap-12 lg:grid-cols-[320px_1fr]">
         <div className="mx-auto w-full max-w-[320px]">
           <div className="glass hover:glow-cyan rounded-2xl p-3 transition-all duration-500">
+            {/* Servi depuis public/brand/, encodé par `npm run assets`.
+                Les dimensions sont celles du fichier — 4:3, et non le carré que
+                je déclarais : le navigateur réservait une place carrée puis
+                recevait une image plus plate, et la page sautait. */}
             <img
-              src={portrait}
+              src="/brand/portrait.webp"
               alt="Grafenberg"
               width={640}
-              height={640}
+              height={480}
               loading="lazy"
               className="w-full rounded-xl object-cover"
             />

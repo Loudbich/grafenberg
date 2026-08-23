@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import logo from '@/assets/GrafenbergLogo.png';
 
 const MainNavbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -54,9 +53,21 @@ const MainNavbar = () => {
             to="/"
             className="hover:scale-105 transition-transform duration-300 z-50 relative"
           >
-            <img 
-              src={logo}
-              alt="GRAFENBERG Logo"
+            {/* Servi depuis public/brand/, encodé par `npm run assets`.
+                La source de 531 ko vit dans assets/ et n'est jamais livrée. */}
+            <img
+              src="/brand/logo.webp"
+              srcSet="/brand/logo-320.webp 320w, /brand/logo.webp 480w"
+              sizes="(min-width: 768px) 141px, 118px"
+              alt="Grafenberg"
+              // Les dimensions réservent la place avant que l'image n'arrive :
+              // sans elles, la barre de navigation se réorganise au chargement
+              // et pousse le menu sur le côté.
+              width={480}
+              height={164}
+              // Le logo est le premier élément visible de chaque page : il ne
+              // doit pas être différé.
+              loading="eager"
               className="h-8 xs:h-10 md:h-12 w-auto"
             />
           </Link>
