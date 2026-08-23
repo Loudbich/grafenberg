@@ -4,37 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <title>Grafenberg — No Saints, No Proof | Dark Synthwave Album</title>
-    <meta name="description" content="Experience 'No Saints, No Proof' - the latest dark synthwave album by Grafenberg. Immersive electronic soundscapes blending retro and futuristic elements. Stream now on all platforms." />
-    <meta name="author" content="Grafenberg (Ludovic Debay)" />
-    <meta name="keywords" content="Grafenberg, No Saints No Proof, synthwave, darkwave, electronic music, cyberpunk, retro, futuristic, streaming" />
 
-    <meta property="og:title" content="Grafenberg — No Saints, No Proof | Dark Synthwave Album" />
-    <meta property="og:description" content="Experience 'No Saints, No Proof' - the latest dark synthwave album by Grafenberg. Immersive electronic soundscapes blending retro and futuristic elements." />
+    <!--
+      ZONE REMPLACÉE AU PRÉRENDU.
+
+      `scripts/prerender.mjs` remplace tout ce qui se trouve entre ces deux
+      marqueurs par les métadonnées propres à chaque URL : titre, description,
+      canonique, Open Graph et graphe schema.org.
+
+      Ce qui suit est donc le repli de développement, et ce que verrait un
+      visiteur si le prérendu venait à ne pas tourner. Ne rien écrire ici qui
+      décrive un album en particulier : ce document sert quinze pages.
+    -->
+    <!--seo-start-->
+    <title>Grafenberg — Dark synthwave &amp; industrial electronics</title>
+    <meta
+      name="description"
+      content="The complete Grafenberg discography: ten albums of dark synthwave and industrial electronics, including two collaborations with Broken Shaman. Listen on SoundCloud and Bandcamp."
+    />
+    <meta property="og:site_name" content="Grafenberg" />
+    <meta property="og:locale" content="en_GB" />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/lovable-uploads/e6c2101b-201f-46ce-b91f-2741d3cf43ce.png" />
-
+    <meta property="og:url" content="https://www.grafenberg.ovh/" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <link rel="canonical" href="https://www.grafenberg.ovh/" />
+    <!--seo-end-->
 
-    <!-- Single Page Apps for GitHub Pages - redirect handling -->
-    <script type="text/javascript">
-      (function(l) {
-        if (l.search[1] === '/' ) {
-          var decoded = l.search.slice(1).split('&').map(function(s) { 
-            return s.replace(/~and~/g, '&')
-          }).join('?');
-          window.history.replaceState(null, null,
-            l.pathname.slice(0, -1) + decoded + l.hash
-          );
-        }
-      }(window.location))
-    </script>
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

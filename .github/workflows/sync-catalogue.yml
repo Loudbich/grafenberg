@@ -1,0 +1,87 @@
+# SYNC HEBDOMADAIRE DU CATALOGUE
+# -----------------------------------------------------------------------------
+# Interroge SoundCloud une fois par semaine et, s'il y a du nouveau, ouvre une
+# pull request avec le catalogue et les pochettes à jour.
+#
+# Une PR et non un push direct sur main : le sync récupère des données d'un
+# service tiers dont le format peut changer, et un push automatique déploierait
+# en ligne sans que personne n'ait regardé. Ici, rien ne part avant que la PR
+# soit relue et fusionnée.
+#
+# À noter : ce workflow ne détecte que les sorties DÉJÀ inscrites dans
+# src/data/releases.ts. Un nouvel album demande toujours d'ajouter son entrée au
+# manifeste à la main — c'est ce qui empêche les dix autres artistes du compte
+# Kinetic Distro d'apparaître sur le site de Grafenberg.
+# -----------------------------------------------------------------------------
+
+name: Sync catalogue
+
+on:
+  schedule:
+    # Tous les lundis à 6h UTC. L'heure creuse évite la file d'attente des
+    # runners, très chargée aux heures rondes.
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+# Le job pousse une branche et ouvre une PR : il lui faut les deux droits.
+permissions:
+  contents: write
+  pull-requests: write
+
+# Deux syncs simultanés se marcheraient dessus sur la même branche.
+concurrency:
+  group: sync-catalogue
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # 22 minimum : le sync importe directement le manifeste TypeScript.
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync from SoundCloud
+        # `--strict` fait échouer le job si une sortie du manifeste est
+        # introuvable : c'est le signal qu'un set a été renommé ou dépublié, et
+        # il vaut mieux le voir passer en rouge que le découvrir sur le site.
+        run: npm run sync -- --strict
+
+      - name: Fetch artwork
+        run: npm run covers
+
+      - name: Open a pull request if anything changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if git diff --quiet -- src/data/catalog.generated.json public/covers; then
+            echo "Catalogue inchangé — rien à proposer."
+            exit 0
+          fi
+
+          BRANCH="sync/catalogue-$(date -u +%Y-%m-%d)"
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add src/data/catalog.generated.json public/covers
+          git commit -m "Sync du catalogue depuis SoundCloud"
+          git push --force origin "$BRANCH"
+
+          # `|| true` : si une PR est déjà ouverte pour cette branche — un sync
+          # relancé le même jour — la commande échoue et ce n'est pas une erreur.
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "Sync du catalogue depuis SoundCloud" \
+            --body "Mise à jour automatique de \`catalog.generated.json\` et des pochettes.
+
+          Relire le diff avant de fusionner : les titres, dates et textes de présentation viennent de SoundCloud et écrasent la version précédente. Une valeur corrigée à la main dans \`src/data/releases.ts\` reste prioritaire et n'est jamais touchée ici." \
+            || true

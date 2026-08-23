@@ -1,29 +1,31 @@
 import { Disc3, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAlbum } from '@/hooks/useAlbum';
-import defaultArtwork from '@/assets/The_Error_Gospel_Artwork.webp';
+import type { Release } from '@/data/catalog';
+
+/**
+ * L'appel à l'achat du pressage vinyle.
+ *
+ * Il tirait auparavant son URL d'un `useAlbum('the-error-gospel')` doublé d'un
+ * lien elasticstage écrit en dur dans le composant — de sorte qu'il se serait
+ * affiché même si l'album n'avait plus de vinyle, et qu'il aurait fallu éditer
+ * un composant pour en presser un second. La sortie est maintenant passée en
+ * prop, et le vinyle est une propriété du disque, dans le manifeste.
+ */
 
 interface VinylPurchaseProps {
+  release: Release;
   variant?: 'hero' | 'section';
-  albumId?: string;
 }
 
-const VinylPurchase = ({ 
-  variant = 'section',
-  albumId = 'the-error-gospel'
-}: VinylPurchaseProps) => {
-  const album = useAlbum(albumId);
-  
-  // Use album data or defaults
-  const albumName = album?.title || 'The Error Gospel';
-  const albumImage = defaultArtwork; // Use imported image
-  const purchaseUrl = album?.vinylUrl || 'https://elasticstage.com/soundcloud/releases/grafenberg-the-error-gospel-album';
+const VinylPurchase = ({ release, variant = 'section' }: VinylPurchaseProps) => {
+  const albumName = release.title;
+  const albumImage = release.cover;
+  const purchaseUrl = release.vinyl;
 
-  // Don't render if no vinyl URL
-  if (!purchaseUrl || purchaseUrl === '') {
-    return null;
-  }
-  
+  // Pas de pressage, pas de section. C'est ce qui permet de poser ce composant
+  // sur n'importe quelle page d'album sans se demander lequel en a un.
+  if (!purchaseUrl) return null;
+
   if (variant === 'hero') {
     return (
       <div className="glass rounded-2xl p-6 md:p-8 border border-amber-500/30 bg-gradient-to-br from-amber-950/40 via-black/60 to-amber-950/20 hover:border-amber-400/50 transition-all duration-500 group">
@@ -49,13 +51,13 @@ const VinylPurchase = ({
           <div className="text-center md:text-left flex-1">
             <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
               <Disc3 className="w-5 h-5 text-amber-400" />
-              <span className="text-amber-400 text-sm font-medium uppercase tracking-wider">Édition Vinyle</span>
+              <span className="text-amber-400 text-sm font-medium uppercase tracking-wider">Vinyl edition</span>
             </div>
             <h3 className="font-orbitron font-bold text-xl md:text-2xl text-amber-100 mb-2">
               {albumName}
             </h3>
             <p className="text-amber-200/60 text-sm mb-4">
-              Édition limitée pressage vinyle • Artwork exclusif
+              Limited vinyl pressing • Exclusive artwork
             </p>
             <Button 
               asChild
@@ -67,7 +69,7 @@ const VinylPurchase = ({
                 rel="noopener noreferrer"
                 className="flex items-center gap-2"
               >
-                Acheter le Vinyle
+                Buy the vinyl
                 <ExternalLink className="w-4 h-4" />
               </a>
             </Button>
@@ -124,7 +126,7 @@ const VinylPurchase = ({
               <div className="flex items-center justify-center lg:justify-start gap-3 mb-4">
                 <Disc3 className="w-6 h-6 text-amber-400 animate-pulse" />
                 <span className="text-amber-400 text-sm md:text-base font-medium uppercase tracking-widest">
-                  Édition Collector
+                  Collector’s edition
                 </span>
               </div>
               
@@ -140,15 +142,15 @@ const VinylPurchase = ({
               <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-8">
                 <div className="flex items-center gap-2 text-amber-300/80 text-sm">
                   <div className="w-2 h-2 rounded-full bg-amber-500" />
-                  Pressage haute qualité
+                  High-quality pressing
                 </div>
                 <div className="flex items-center gap-2 text-amber-300/80 text-sm">
                   <div className="w-2 h-2 rounded-full bg-amber-500" />
-                  Artwork exclusif
+                  Exclusive artwork
                 </div>
                 <div className="flex items-center gap-2 text-amber-300/80 text-sm">
                   <div className="w-2 h-2 rounded-full bg-amber-500" />
-                  Édition limitée
+                  Limited edition
                 </div>
               </div>
               
@@ -164,7 +166,7 @@ const VinylPurchase = ({
                   className="flex items-center gap-3"
                 >
                   <Disc3 className="w-5 h-5" />
-                  Acheter le Vinyle
+                  Buy the vinyl
                   <ExternalLink className="w-5 h-5" />
                 </a>
               </Button>

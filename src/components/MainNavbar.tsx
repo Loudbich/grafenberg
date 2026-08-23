@@ -25,26 +25,26 @@ const MainNavbar = () => {
     setIsMobileMenuOpen(false);
   };
 
+  // Deux albums y étaient nommés en dur : avec quinze sorties, la navigation
+  // pointe vers la discographie plutôt que d'en désigner deux arbitrairement.
   const navLinks = [
-    { path: '/', label: 'Accueil' },
-    { path: '/album/the-error-gospel', label: 'The Error Gospel' },
-    { path: '/album/no-saints-no-proof', label: 'No Saints, No Proof' },
+    { path: '/', label: 'Home' },
+    { path: '/#discography', label: 'Discography' },
+    { path: '/#artist', label: 'Artist' },
+    { path: '/#contact', label: 'Contact' },
   ];
 
-  const isActive = (path: string) => location.pathname === path;
+  // Les ancres ne sont jamais « actives » : elles désignent une section de la
+  // page courante, pas une page. Les comparer au pathname ferait clignoter
+  // « Accueil » comme actif pendant que le visiteur lit la discographie.
+  const isActive = (path: string) => !path.includes('#') && location.pathname === path;
 
   return (
     <>
-      {/* Scroll Progress Bar */}
-      <div className="fixed top-0 left-0 right-0 h-1 z-50">
-        <div 
-          className="h-full bg-gradient-to-r from-neon-orange via-neon-cyan to-neon-magenta transition-all duration-300"
-          style={{
-            width: `${Math.min(100, (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100)}%`
-          }}
-        />
-      </div>
-
+      {/* La barre de progression vivait ici, calculée pendant le rendu à partir
+          de window.scrollY : elle ne se mettait donc jamais à jour au défilement,
+          et doublait <ScrollProgress/>, qui est monté sur chaque page et le fait
+          correctement. */}
       <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
         scrolled ? 'glass py-2 xs:py-3 md:py-4' : 'py-3 xs:py-4 md:py-6'
       }`}>
