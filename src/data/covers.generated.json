@@ -1,6 +1,6 @@
 {
   "circuits-in-silence": {
-    "source": "https://f4.bcbits.com/img/a4255788685_0.jpg",
+    "source": "https://f4.bcbits.com/img/a3710635474_0.jpg",
     "content": [
       {
         "file": "circuits-in-silence-400.webp",
@@ -18,6 +18,29 @@
       },
       {
         "file": "circuits-in-silence-bg.webp",
+        "w": 1280
+      }
+    ]
+  },
+  "what-the-system-missed": {
+    "source": "https://f4.bcbits.com/img/a2359608308_0.jpg",
+    "content": [
+      {
+        "file": "what-the-system-missed-400.webp",
+        "w": 400
+      },
+      {
+        "file": "what-the-system-missed.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "what-the-system-missed-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "what-the-system-missed-bg.webp",
         "w": 1280
       }
     ]

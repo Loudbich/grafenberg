@@ -20,7 +20,17 @@
  * -----------------------------------------------------------------------------
  */
 
-import { albums, catalogue, kindLabels, links, taglineOf, type Release } from '@/data/catalog';
+import {
+  albums,
+  catalogue,
+  collabCount,
+  kindLabels,
+  links,
+  soloCount,
+  spellOut,
+  taglineOf,
+  type Release,
+} from '@/data/catalog';
 
 /** L'origine publique. Sans barre oblique finale. */
 export const BASE_URL = 'https://www.grafenberg.ovh';
@@ -103,7 +113,7 @@ export const artistEntity = ({ deep = false } = {}) => ({
   ],
   foundingLocation: { '@type': 'Country', name: 'France' },
   description:
-    'Producer, composer and world-builder. Eight solo albums and two collaborative records with Broken Shaman, released by Kinetic Distro.',
+    `Producer, composer and world-builder. ${spellOut(soloCount)[0].toUpperCase()}${spellOut(soloCount).slice(1)} solo albums and ${spellOut(collabCount)} collaborative records with Broken Shaman, released by Kinetic Distro.`,
   recordLabel: { '@id': ID.label },
   sameAs: [links.soundcloud, links.bandcamp, links.label],
   ...(deep && {

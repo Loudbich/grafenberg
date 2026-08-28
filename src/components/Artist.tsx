@@ -1,5 +1,5 @@
 import { Mic2, Users, Disc3, Compass } from 'lucide-react';
-import { links } from '@/data/catalog';
+import { collabCount, links, soloCount, spellOut } from '@/data/catalog';
 
 /**
  * L'artiste.
@@ -62,13 +62,16 @@ const facets = [
  * Un tableau plutôt qu'un bloc de JSX : le texte se relit et se remplace sans
  * traverser le balisage, et les paragraphes restent des paragraphes plutôt
  * qu'un `<p>` unique coupé par des `<br/>`.
+ *
+ * Le nombre d'albums est calculé et non écrit : ce paragraphe annonçait encore
+ * « eight solo albums » le jour où le neuvième est sorti.
  */
 const biography = [
   'Grafenberg has never followed a straight line.',
   'The story began behind the decks in the 1990s, in a culture where music was discovered physically, built through instinct and tested directly against a moving crowd. Long before algorithms began defining taste, Grafenberg learned how rhythm could alter a room, how tension could be sustained and how a single transition could open the door to another world.',
   'In the early 2000s, Grafenberg released a series of electronic EPs through the Traumwelten label. These first recordings established the foundations of an artistic language already driven by atmosphere, movement and emotional contrast.',
   'Grafenberg re-emerged in the 2020s not as a nostalgia project, but as a producer, composer and world-builder without borders.',
-  'Across eight solo albums, the project has continuously evolved, moving through French touch, synthwave, cosmic disco, cinematic electronica, alternative pop and darker forms of club music. Genres are treated as raw materials rather than boundaries. Analog warmth can collide with digital tension. A euphoric bassline can carry a trace of melancholy. A dance track can become a scene from a film that has never existed.',
+  `Across ${spellOut(soloCount)} solo albums, the project has continuously evolved, moving through French touch, synthwave, cosmic disco, cinematic electronica, alternative pop and darker forms of club music. Genres are treated as raw materials rather than boundaries. Analog warmth can collide with digital tension. A euphoric bassline can carry a trace of melancholy. A dance track can become a scene from a film that has never existed.`,
   'At the heart of Grafenberg’s solo work stands Nyla Vey, the project’s permanent singer and privileged collaborator. Her voice gives a human presence to Grafenberg’s shifting electronic landscapes, moving between intimacy, seduction, vulnerability and controlled intensity. She is not simply a featured vocalist, but an essential part of the project’s identity.',
   'Grafenberg’s universe extends far beyond the solo discography. Two collaborative albums with Broken Shaman brought electronic architecture into contact with fractured hip-hop, cinematic production and urban soul. Grafenberg also produced the debut album by Hollow Static, helping to shape its world of impossible memories, emotional distortion and invented lives. Collaborations with Chromabone have opened further passages into darker club environments, corrupted signals and radical reinterpretations.',
   'As artistic director and mastermind of Kinetic Distro, Grafenberg connects artists, records, characters and visual identities into a constantly expanding creative universe. The role is not merely to produce music, but to recognise what each project could become and help it find its own language.',

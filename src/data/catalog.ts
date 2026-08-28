@@ -135,7 +135,7 @@ function merge(entry: CuratedRelease): Release {
   };
 }
 
-/** Les dix albums — huit en solo, deux en collaboration. */
+/** Les albums : solo et collaborations. Voir `soloCount` / `collabCount`. */
 export const albums: Release[] = curatedAlbums.map(merge);
 
 /** EPs, relectures et singles. */
@@ -145,6 +145,32 @@ export const catalogue: Release[] = [...albums, ...secondary];
 
 export const getRelease = (slug: string): Release | undefined =>
   catalogue.find((r) => r.slug === slug);
+
+/**
+ * Décomptes du catalogue.
+ *
+ * Exposés plutôt que recopiés dans les textes : la biographie annonçait « eight
+ * solo albums » et le graphe schema.org « Eight solo albums » longtemps après
+ * le neuvième. Une phrase qui contient un nombre se périme ; une phrase qui le
+ * calcule, non.
+ */
+export const soloCount = albums.filter((r) => r.kind === 'album').length;
+export const collabCount = albums.filter((r) => r.kind === 'collab').length;
+
+/**
+ * Un nombre en toutes lettres, jusqu'à douze.
+ *
+ * De la prose, pas un tableau de bord : « Across 9 solo albums » détonnerait au
+ * milieu d'une biographie. Au-delà de douze, le chiffre reprend ses droits,
+ * comme le veut l'usage typographique.
+ */
+export function spellOut(n: number): string {
+  const mots = [
+    'zero', 'one', 'two', 'three', 'four', 'five', 'six',
+    'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve',
+  ];
+  return mots[n] ?? String(n);
+}
 
 /** Les sorties disponibles en vinyle. Une seule à ce jour. */
 export const onVinyl: Release[] = catalogue.filter((r) => r.vinyl);

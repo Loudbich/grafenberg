@@ -71,6 +71,18 @@ export type CuratedRelease = {
  */
 export const releases: CuratedRelease[] = [
   {
+    slug: 'what-the-system-missed',
+    title: 'What the System Missed',
+    artist: 'Grafenberg',
+    kind: 'album',
+    soundcloud: 'what-the-system-missed',
+    bandcamp: 'https://kineticdistro.bandcamp.com/album/what-the-system-missed',
+    // Violet : la pochette est scindée en deux moitiés, violette du côté de
+    // Nyla Vey et dorée de celui de Nehir Sedef. Le violet reprend la première
+    // et tranche avec le cyan de l'album qui le suit dans la grille.
+    accent: 'violet',
+  },
+  {
     slug: 'chrome-syndicate-dreams',
     title: 'Chrome Syndicate Dreams',
     artist: 'Grafenberg × Broken Shaman',
