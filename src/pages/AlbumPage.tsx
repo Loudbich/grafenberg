@@ -10,7 +10,7 @@ import { releaseSeo } from '@/lib/seo';
 import StreamingLinks from '@/components/StreamingLinks';
 import VinylPurchase from '@/components/VinylPurchase';
 import NotFound from '@/pages/NotFound';
-import { getRelease, kindLabels, formatDate, yearOf } from '@/data/catalog';
+import { badgeFor, getRelease, formatDate, yearOf } from '@/data/catalog';
 import { accentOf } from '@/lib/accent';
 
 /**
@@ -76,7 +76,7 @@ const AlbumPage = () => {
               <span
                 className={`mb-4 inline-block w-fit rounded-full border px-3 py-1 text-xs font-medium ${style.border} ${style.bg} ${style.text}`}
               >
-                {kindLabels[release.kind]}
+                {badgeFor(release)}
                 {yearOf(release) && ` • ${yearOf(release)}`}
               </span>
 

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Disc } from 'lucide-react';
-import { kindLabels, yearOf, type Release } from '@/data/catalog';
+import { badgeFor, yearOf, type Release } from '@/data/catalog';
 import { accentOf } from '@/lib/accent';
 
 /**
@@ -62,7 +62,7 @@ const ReleaseCard = ({ release, priority = false }: Props) => {
           <span
             className={`inline-block rounded-full border px-3 py-1 text-xs font-medium ${style.border} ${style.bg} ${style.text}`}
           >
-            {kindLabels[release.kind]}
+            {badgeFor(release)}
             {year && ` • ${year}`}
           </span>
         </div>

@@ -58,6 +58,14 @@ export type Release = CuratedRelease & {
   soundcloudUrl?: string;
   /** Date d'affichage, déjà arbitrée entre manifeste et sync. */
   date?: string;
+  /**
+   * Le rang de l'album dans la discographie solo, s'il en a un.
+   *
+   * Seuls les albums solo sont numérotés : c'est la numérotation que l'artiste
+   * emploie lui-même, « ALBUM IX » figurant sur la pochette de What the System
+   * Missed. Les collaborations, EPs, remixes et singles n'y entrent pas.
+   */
+  albumNumber?: number;
 };
 
 type GeneratedEntry = {
@@ -135,8 +143,40 @@ function merge(entry: CuratedRelease): Release {
   };
 }
 
-/** Les albums : solo et collaborations. Voir `soloCount` / `collabCount`. */
-export const albums: Release[] = curatedAlbums.map(merge);
+/**
+ * Chiffres romains, de 1 à 39.
+ *
+ * L'artiste numérote ses albums ainsi — « ALBUM IX » est imprimé sur la
+ * pochette du neuvième. La borne haute est large mais pas infinie : au-delà,
+ * un chiffre romain cesse d'être lisible d'un coup d'œil, et le repli en
+ * chiffres arabes vaut mieux qu'un « XXXX ».
+ */
+export function roman(n: number): string {
+  if (n < 1 || n > 39) return String(n);
+  const dizaines = ['', 'X', 'XX', 'XXX'];
+  const unites = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'];
+  return dizaines[Math.floor(n / 10)] + unites[n % 10];
+}
+
+/**
+ * Les albums : solo et collaborations.
+ *
+ * La numérotation est calculée ici, à partir de l'ordre du manifeste — qui va
+ * du plus récent au plus ancien. Le dernier album solo de la liste est donc le
+ * premier de la discographie. Compter à l'envers plutôt qu'écrire le numéro à
+ * la main évite d'avoir à renuméroter quoi que ce soit à chaque sortie, et
+ * qu'un numéro se retrouve en double.
+ */
+export const albums: Release[] = (() => {
+  const merged = curatedAlbums.map(merge);
+  const totalSolo = merged.filter((r) => r.kind === 'album').length;
+
+  let restants = totalSolo;
+  return merged.map((release) => {
+    if (release.kind !== 'album') return release;
+    return { ...release, albumNumber: restants-- };
+  });
+})();
 
 /** EPs, relectures et singles. */
 export const secondary: Release[] = curatedSecondary.map(merge);
@@ -180,6 +220,17 @@ export const latest: Release = albums[0];
 
 /** Quand le catalogue a été rafraîchi. Affiché nulle part, utile au débogage. */
 export const generatedAt: string | undefined = (generated as { generatedAt?: string }).generatedAt;
+
+/**
+ * Ce qu'affiche la pastille d'une sortie.
+ *
+ * Un album solo porte son rang — « Album IX » — parce que c'est ainsi que
+ * l'artiste désigne ses disques, jusque sur les pochettes. Tout le reste garde
+ * son libellé simple : numéroter une collaboration ou un EP inventerait une
+ * série qui n'existe pas.
+ */
+export const badgeFor = (release: Release): string =>
+  release.albumNumber ? `${kindLabels.album} ${roman(release.albumNumber)}` : kindLabels[release.kind];
 
 /** Libellés affichés dans les pastilles. Le site est en anglais. */
 export const kindLabels: Record<ReleaseKind, string> = {

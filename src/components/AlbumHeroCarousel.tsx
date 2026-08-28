@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { albums as catalogue, kindLabels, taglineOf, yearOf } from '@/data/catalog';
+import { albums as catalogue, badgeFor, taglineOf, yearOf } from '@/data/catalog';
 
 /**
  * Le bandeau d'accueil : les trois dernières sorties, en rotation.
@@ -20,6 +20,17 @@ const AlbumHeroCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
+  /**
+   * La rotation est-elle suspendue ?
+   *
+   * Un carrousel qui avance seul déplace ce qu'on est en train de lire. Le
+   * critère WCAG 2.2.2 demande de pouvoir arrêter tout mouvement automatique
+   * durant plus de cinq secondes ; celui-ci tournait toutes les huit sans
+   * aucun moyen de l'interrompre. Le survol et le focus le suspendent
+   * désormais — le focus étant ce qui rend la chose utilisable au clavier,
+   * où l'on ne peut pas « survoler ».
+   */
+  const [paused, setPaused] = useState(false);
 
   const goToPrevious = () => {
     if (isAnimating) return;
@@ -40,28 +51,42 @@ const AlbumHeroCarousel = () => {
     return () => clearTimeout(timer);
   }, [currentIndex]);
 
-  // Auto-advance carousel (if more than one album)
   useEffect(() => {
-    if (albums.length <= 1) return;
-    
-    const interval = setInterval(() => {
-      goToNext();
-    }, 8000);
-    
+    if (albums.length <= 1 || paused) return;
+
+    // Qui a demandé moins de mouvement ne veut pas d'un bandeau qui tourne
+    // tout seul. Les flèches et les puces restent, la rotation cesse.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const interval = setInterval(goToNext, 8000);
     return () => clearInterval(interval);
-  }, []);
+    // `paused` en dépendance : la minuterie est détruite à la suspension et
+    // recréée à la reprise, ce qui repart d'un intervalle plein plutôt que de
+    // faire défiler la diapositive une demi-seconde après le départ du curseur.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [paused]);
 
   const currentAlbum = albums[currentIndex];
 
-  // Le premier paragraphe de la présentation SoundCloud suffit ici ; le texte
-  // entier appartient à la page de l'album. Un repli est nécessaire parce que
-  // le sync peut n'avoir trouvé aucune description.
-  const tagline =
-    currentAlbum.description?.split('\n').find((line) => line.trim().length > 0) ??
-    `${kindLabels[currentAlbum.kind]} by ${currentAlbum.artist}`;
+  // La première phrase UTILE de la présentation ; le texte entier appartient à
+  // la page de l'album.
+  //
+  // `taglineOf` et non la première ligne brute : plusieurs présentations
+  // s'ouvrent sur le titre en capitales, parfois suivi de la mention du label.
+  // Prendre la première ligne telle quelle affichait « WHAT THE SYSTEM MISSED »
+  // en guise d'accroche, juste au-dessus du titre déjà écrit en grand.
+  const tagline = taglineOf(currentAlbum);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      // `onFocus`/`onBlur` remontent depuis les enfants — c'est ce qui suspend
+      // la rotation quand le clavier entre dans le bandeau.
+      onFocus={() => setPaused(true)}
+      onBlur={() => setPaused(false)}
+    >
       {/* Background Image (always synced with the current album) */}
       <div className="absolute inset-0">
         {/* Les fichiers de fond, encodés à part (voir sync-covers.mjs).
@@ -102,7 +127,7 @@ const AlbumHeroCarousel = () => {
               }`}
             >
               <span className="inline-block px-4 py-1 glass rounded-full text-neon-cyan text-sm font-medium mb-4">
-                {yearOf(currentAlbum)} • {kindLabels[currentAlbum.kind]}
+                {yearOf(currentAlbum)} • {badgeFor(currentAlbum)}
               </span>
               
               <h1 className="font-orbitron font-black text-4xl xs:text-5xl sm:text-6xl md:text-7xl mb-6 text-gradient-neon drop-shadow-2xl">
@@ -169,16 +194,24 @@ const AlbumHeroCarousel = () => {
             
             <div className="flex gap-2">
               {albums.map((_, index) => (
+                // La puce mesurait 8px de côté : sous les 24px que demande le
+                // critère WCAG 2.5.8, et difficile à viser au doigt. Le bouton
+                // fait maintenant 24px, la pastille visible en garde 8.
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === currentIndex 
-                      ? 'bg-neon-cyan w-6' 
-                      : 'bg-foreground/30 hover:bg-foreground/50'
-                  }`}
+                  className="flex h-6 w-6 items-center justify-center"
                   aria-label={`Go to album ${index + 1}`}
-                />
+                  aria-current={index === currentIndex ? 'true' : undefined}
+                >
+                  <span
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      index === currentIndex
+                        ? 'bg-neon-cyan w-6'
+                        : 'w-2 bg-foreground/30 hover:bg-foreground/50'
+                    }`}
+                  />
+                </button>
               ))}
             </div>
             

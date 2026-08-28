@@ -485,3 +485,61 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   FOCUS VISIBLE
+   ---------------------------------------------------------------------------
+   Rien n'indiquait le focus : ni contour, ni ombre, sur la navigation, les
+   cartes d'album ou les boutons. Naviguer ce site au clavier revenait à le
+   parcourir en aveugle — on savait qu'on avançait, jamais où l'on était.
+   C'est un manquement au critère WCAG 2.4.7, et l'un des rares qui rende un
+   site franchement inutilisable pour qui n'emploie pas de souris.
+
+   `:focus-visible` et non `:focus` : le navigateur ne dessine alors l'anneau
+   que pour une navigation au clavier, et pas après un clic à la souris — ce
+   qui est précisément la raison pour laquelle l'ancien réglage avait été
+   supprimé plutôt que corrigé.
+
+   Le cyan est celui de la charte, et son contraste sur le fond sombre dépasse
+   largement les 3:1 exigés. Le décalage de 2px empêche l'anneau de mordre sur
+   le contenu.
+--------------------------------------------------------------------------- */
+@layer base {
+  :focus-visible {
+    outline: 2px solid hsl(var(--neon-cyan));
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Tailwind pose `focus:outline-none` sur ses composants ; sans ce rappel,
+     les boutons et champs de `components/ui` resteraient sans indicateur. */
+  .focus\:outline-none:focus-visible,
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid hsl(var(--neon-cyan));
+    outline-offset: 2px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   MOUVEMENT RÉDUIT
+   ---------------------------------------------------------------------------
+   Le site est fait d'animations : apparitions au défilement, halos pulsés,
+   traînée de curseur, rotation du bandeau, dégradés animés. Pour qui souffre
+   de troubles vestibulaires, cet empilement va du désagréable au nauséeux, et
+   le réglage système existe précisément pour le dire.
+
+   On neutralise ici tout ce qui bouge de soi-même, sans rien masquer : les
+   animations sont ramenées à leur état final plutôt que supprimées, sans quoi
+   les blocs révélés au défilement resteraient invisibles.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
