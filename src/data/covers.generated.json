@@ -275,6 +275,29 @@
       }
     ]
   },
+  "the-city-watches-her-leave-chromabone-remixes": {
+    "source": "D:\\ProjetWeb\\grafenberg-neon-waves-main\\assets\\covers\\Chromabone\\Grafenberg - the city watches her leave (Chromabone remixes)\\Grafenberg - the city watches her leave (Chromabone remixes).webp",
+    "content": [
+      {
+        "file": "the-city-watches-her-leave-chromabone-remixes-400.webp",
+        "w": 400
+      },
+      {
+        "file": "the-city-watches-her-leave-chromabone-remixes.webp",
+        "w": 1000
+      }
+    ],
+    "bg": [
+      {
+        "file": "the-city-watches-her-leave-chromabone-remixes-bg-800.webp",
+        "w": 800
+      },
+      {
+        "file": "the-city-watches-her-leave-chromabone-remixes-bg.webp",
+        "w": 1280
+      }
+    ]
+  },
   "teopolis-recoded-ep": {
     "source": "https://i1.sndcdn.com/artworks-y8geDeHQKsT40Gb8-CAmlJg-t1080x1080.jpg",
     "content": [

@@ -44,6 +44,17 @@ export type CuratedRelease = {
   bandcamp?: string;
   /** Pressage vinyle, s'il existe. Affiche la section d'achat sur la page. */
   vinyl?: string;
+  /**
+   * Les pistes sont téléchargeables gratuitement sur SoundCloud.
+   *
+   * Une propriété du disque et non un texte écrit dans un composant : c'est
+   * ponctuel, cela s'active et se désactive côté SoundCloud, et le site doit
+   * pouvoir cesser de l'annoncer sans qu'on touche à du balisage.
+   *
+   * Vérifiable : l'API expose `downloadable` et `has_downloads_left` sur
+   * chaque piste. Les deux sont vrais ici.
+   */
+  freeDownload?: boolean;
   accent: Accent;
   /**
    * Date de sortie réelle, au format ISO.
@@ -200,6 +211,17 @@ export const releases: CuratedRelease[] = [
  * grille qu'un album sans en fausser la lecture.
  */
 export const secondaryReleases: CuratedRelease[] = [
+  {
+    slug: 'the-city-watches-her-leave-chromabone-remixes',
+    title: 'The City Watches Her Leave',
+    artist: 'Grafenberg — Chromabone remixes',
+    kind: 'remixes',
+    soundcloud: 'grafenberg-the-city-watches',
+    // Pas de page Bandcamp : la pochette 3000 px déposée dans assets/covers
+    // est donc la meilleure source dont dispose le site.
+    accent: 'magenta',
+    freeDownload: true,
+  },
   {
     slug: 'teopolis-recoded-ep',
     title: 'Teopolis Recoded EP',

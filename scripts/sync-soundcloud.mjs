@@ -150,11 +150,58 @@ async function main() {
     missing.forEach((m) => warn('   ·', m));
   }
 
+  // La première piste de chaque set, relevée AVANT l'hydratation : celle-ci
+  // supprime `trackIds`, l'échafaudage qui lui sert à remettre les titres dans
+  // l'ordre. Ces identifiants servent au contrôle des téléchargements plus bas.
+  const premieresPistes = new Map(
+    matched.map(([release, set]) => [release.slug, set.trackIds?.[0] ?? null]),
+  );
+
   await hydrateTracklists(
     get,
     matched.map(([, set]) => set),
     { clientId },
   );
+
+  /**
+   * Contrôle du téléchargement offert.
+   *
+   * Le manifeste décide de ce que le site annonce ; SoundCloud décide de ce qui
+   * est réellement téléchargeable, et un quota peut s'épuiser sans prévenir.
+   * On ne corrige donc pas le manifeste — ce serait retirer à l'artiste le
+   * contrôle de ce qu'il met en avant — mais on signale tout désaccord, pour
+   * qu'une pastille « Free download » ne survive pas au téléchargement qu'elle
+   * annonce.
+   *
+   * La première piste sert de témoin : c'est aussi celle sur laquelle tombe un
+   * visiteur qui ouvre le set.
+   */
+  const temoins = new Map();
+  for (const [release] of matched) {
+    const premier = premieresPistes.get(release.slug);
+    if (premier) temoins.set(premier, release);
+  }
+  if (temoins.size) {
+    try {
+      const ids = [...temoins.keys()];
+      const rows = JSON.parse(
+        await get(`https://api-v2.soundcloud.com/tracks?ids=${ids.join(',')}&client_id=${clientId}`),
+      );
+      for (const row of rows ?? []) {
+        const release = temoins.get(String(row.id));
+        if (!release) continue;
+        const offert = Boolean(row.downloadable && row.has_downloads_left);
+        if (offert && !release.freeDownload) {
+          warn(`${release.title} : téléchargeable sur SoundCloud, mais le manifeste ne l'annonce pas.`);
+        }
+        if (!offert && release.freeDownload) {
+          warn(`${release.title} : le manifeste annonce un téléchargement offert que SoundCloud ne propose plus.`);
+        }
+      }
+    } catch (err) {
+      warn(`contrôle des téléchargements impossible : ${err.message}`);
+    }
+  }
 
   // Les pochettes haute résolution, cherchées en parallèle : une quinzaine de
   // pages Bandcamp en séquence coûterait une dizaine de secondes pour rien.

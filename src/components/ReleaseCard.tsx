@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Disc } from 'lucide-react';
+import { Disc, Download } from 'lucide-react';
 import { badgeFor, yearOf, type Release } from '@/data/catalog';
 import { accentOf } from '@/lib/accent';
 
@@ -57,6 +57,18 @@ const ReleaseCard = ({ release, priority = false }: Props) => {
         )}
 
         <div className="from-deep/80 absolute inset-0 bg-gradient-to-t via-transparent to-transparent" />
+
+        {/* Le téléchargement libre est signalé dès la grille : c'est ce qui
+            distingue cette sortie des autres, et l'apprendre après avoir ouvert
+            la page serait l'apprendre trop tard. */}
+        {release.freeDownload && (
+          <span
+            className={`absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${style.border} ${style.bg} ${style.text} backdrop-blur-sm`}
+          >
+            <Download className="h-3 w-3" aria-hidden="true" />
+            Free
+          </span>
+        )}
 
         <div className="absolute bottom-4 left-4 right-4">
           <span
