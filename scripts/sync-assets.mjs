@@ -62,10 +62,14 @@ const kb = (n) => `${Math.round(n / 1024)} ko`;
 const targets = [
   {
     dir: 'assets/logo',
+    // Nommé explicitement : l'ancien lettrage rose plat cohabite avec le
+    // nouveau dans le dossier, et le choix ne doit pas dépendre de l'ordre de
+    // lecture du système de fichiers.
+    file: 'Grafenberg_logo_liquid_glass.png',
     name: 'logo',
-    // Dessiné à 141 px de large au plus (`md:h-12`). 320 couvre un écran en 2x,
-    // 480 un écran à 3x.
-    widths: [320, 480],
+    // Dessiné jusqu'à 192 px de large (`md:h-16` sur un lettrage en 3:1).
+    // 384 couvre un écran en 2x, 640 un écran à 3x.
+    widths: [384, 640],
     // 92 plutôt que les 88 des pochettes : un tracé aux bords francs sur fond
     // transparent laisse voir la compression bien plus vite qu'une photographie.
     quality: 92,

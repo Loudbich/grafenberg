@@ -59,8 +59,8 @@ const MainNavbar = () => {
                 La source de 531 ko vit dans assets/ et n'est jamais livrée. */}
             <img
               src="/brand/logo.webp"
-              srcSet="/brand/logo-320.webp 320w, /brand/logo.webp 480w"
-              sizes="(min-width: 768px) 141px, 118px"
+              srcSet="/brand/logo-384.webp 384w, /brand/logo.webp 640w"
+              sizes="(min-width: 768px) 192px, 144px"
               alt="Grafenberg"
               // Les dimensions réservent la place avant que l'image n'arrive :
               // sans elles, la barre de navigation se réorganise au chargement
@@ -70,7 +70,7 @@ const MainNavbar = () => {
               // Le logo est le premier élément visible de chaque page : il ne
               // doit pas être différé.
               loading="eager"
-              className="h-8 xs:h-10 md:h-12 w-auto"
+              className="h-12 xs:h-14 md:h-16 w-auto"
             />
           </Link>
 
