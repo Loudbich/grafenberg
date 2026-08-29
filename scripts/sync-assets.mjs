@@ -283,8 +283,10 @@ async function main() {
     after += r.after;
   }
 
-  const { roster } = await import('../src/data/roster.ts');
-  const r = await encodeRoster(roster);
+  // `otherArtists` et non `roster` : la page ne montre pas Grafenberg, et
+  // encoder son visuel produirait des fichiers déployés que rien ne demande.
+  const { otherArtists } = await import('../src/data/roster.ts');
+  const r = await encodeRoster(otherArtists);
   before += r.before;
   after += r.after;
 

@@ -20,7 +20,7 @@
  * -----------------------------------------------------------------------------
  */
 
-import { roster, labelUrl } from '@/data/roster';
+import { otherArtists, labelUrl } from '@/data/roster';
 import {
   albums,
   catalogue,
@@ -248,7 +248,12 @@ export function labelSeo(): RouteSeo {
         // fiches complètes vivent sur le site du label, et deux graphes
         // décrivant la même entité se contrediraient tôt ou tard.
         about: { '@id': ID.label },
-        mentions: roster.map((artist) => ({
+        // Grafenberg est absent de cette liste — non par omission, mais parce
+        // qu'il est déjà dans le graphe sous son @id canonique, via
+        // `artistEntity()`. L'y remettre créerait un second nœud MusicGroup
+        // pour la même personne, portant l'URL du label : deux entités là où il
+        // n'y en a qu'une, ce qu'un moteur résout mal.
+        mentions: otherArtists.map((artist) => ({
           '@type': 'MusicGroup',
           name: artist.name,
           genre: artist.genre,

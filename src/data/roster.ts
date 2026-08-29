@@ -35,8 +35,11 @@ export type RosterArtist = {
 export const labelUrl = (slug: string) => `https://www.kinetic-distro.com/roster/${slug}/`;
 
 /**
- * Grafenberg en tête : c'est son site, et le visiteur doit se repérer avant de
- * découvrir les autres. Les dix suivants sont dans l'ordre du site du label.
+ * Le roster complet du label, dans l'ordre de son site.
+ *
+ * Grafenberg y figure parce que c'est un fait — il est de ce roster, et le
+ * décompte affiché sur la page s'en déduit. Mais il n'apparaît pas dans la
+ * grille : voir `otherArtists`.
  */
 export const roster: RosterArtist[] = [
   { slug: 'grafenberg', name: 'Grafenberg', genre: 'Dark synthwave / Darkwave', accent: 'magenta' },
@@ -86,3 +89,15 @@ export const roster: RosterArtist[] = [
   },
   { slug: 'love-cult', name: 'Love Cult', genre: 'Ritual pop / Drone', accent: 'violet' },
 ];
+
+/**
+ * Les artistes que la grille montre : tout le roster sauf Grafenberg.
+ *
+ * Une carte « Grafenberg » renvoyant vers kinetic-distro.com, sur le site de
+ * Grafenberg, enverrait le visiteur découvrir ailleurs celui dont il lit déjà
+ * les pages. La page présente donc les autres.
+ *
+ * Filtré plutôt que retiré du tableau : le roster compte bien onze artistes,
+ * c'est ce que la page annonce, et ce nombre doit rester vrai.
+ */
+export const otherArtists: RosterArtist[] = roster.filter((a) => a.slug !== 'grafenberg');

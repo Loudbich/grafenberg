@@ -5,8 +5,8 @@ import ScrollProgress from '@/components/ScrollProgress';
 import CursorTrail from '@/components/CursorTrail';
 import Seo from '@/components/Seo';
 import { labelSeo } from '@/lib/seo';
-import { roster, labelUrl, type RosterArtist } from '@/data/roster';
-import { links } from '@/data/catalog';
+import { otherArtists, roster, labelUrl, type RosterArtist } from '@/data/roster';
+import { links, spellOut } from '@/data/catalog';
 import { accentOf } from '@/lib/accent';
 import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 
@@ -110,8 +110,11 @@ const Label = () => {
             <div className="waveform mx-auto mb-8 max-w-xs" />
             <p className="text-muted-foreground mx-auto max-w-2xl text-lg leading-relaxed">
               The independent label that releases Grafenberg's records — and the one he directs.
-              Eleven artists working at the intersection of genres, cultures and eras, each
-              carrying a complete world rather than a track.
+              {' '}
+              {spellOut(roster.length)[0].toUpperCase()}
+              {spellOut(roster.length).slice(1)} artists working at the intersection of genres,
+              cultures and eras, Grafenberg among them. Each carries a complete world rather than a
+              track.
             </p>
             <a
               href={links.label}
@@ -127,7 +130,7 @@ const Label = () => {
 
         <div data-reveal className="container mx-auto max-w-6xl">
           <div className="grid gap-6 md:grid-cols-2">
-            {roster.map((artist) => (
+            {otherArtists.map((artist) => (
               <ArtistCard
                 key={artist.slug}
                 artist={artist}
