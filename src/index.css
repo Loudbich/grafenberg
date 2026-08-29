@@ -25,48 +25,74 @@
 
 @layer base {
   :root {
-    /* Core Synthwave Colors */
-    --neon-orange: 24 100% 50%;
-    --neon-cyan: 186 100% 50%;
-    --neon-magenta: 325 98% 57%;
-    --neon-violet: 254 76% 68%;
-    --sand: 19 73% 20%;
-    --deep: 237 34% 7%;
-    
-    /* Gold Orange Theme (Lunar) */
-    --gold: 43 96% 56%;
-    --gold-dark: 30 100% 34%;
-    --gold-light: 48 100% 67%;
-    --amber: 45 93% 58%;
-    --bronze: 22 69% 31%;
-    
+    /* -------------------------------------------------------------------
+       PALETTE
+       -------------------------------------------------------------------
+       Deux teintes, toutes deux relevées sur le lettrage de la marque.
+       Un échantillonnage de ses pixels visibles le situe entièrement entre
+       250° et 310° : fuchsia dominant, éclats violets. Les anciens accents
+       orange (24°) et cyan (186°) n'y figuraient nulle part, et coloraient
+       pourtant neuf sorties sur dix-sept.
+
+       L'accent est RARE par principe. Une couleur employée partout cesse
+       d'être un accent et devient un fond ; c'est ce qui rendait le site
+       bariolé. Le corps du texte est blanc et gris, l'artwork porte la
+       couleur, et le fuchsia ne souligne que ce qui appelle un geste.
+       ------------------------------------------------------------------- */
+    --accent: 305 88% 62%;
+    /* 66 % et non 60 : à 60 le violet tombait à 4,14:1 sur ce fond, sous le
+       seuil de 4,5 qu'exige un texte de 12 px — et les pastilles font 12 px.
+       À 66 il donne 5,36:1, et pèse visuellement autant que le fuchsia à
+       6,52. */
+    --accent-alt: 265 72% 66%;
+
+    /* Le noir n'est pas neutre : un souffle de la teinte de la marque, trop
+       faible pour se voir seul, assez pour que le fuchsia posé dessus ne
+       paraisse pas flotter sur un fond étranger. L'ancien fond était un bleu
+       marine (237°) qui tirait tout vers le froid. */
+    --deep: 305 8% 4%;
+
     /* Background & Surface */
-    --background: 237 34% 7%;
-    --surface: 237 34% 12%;
-    --surface-glass: 237 34% 12%;
+    --background: 305 8% 4%;
+    --surface: 305 8% 9%;
+    --surface-glass: 305 8% 9%;
     
     /* Text Colors */
     --foreground: 0 0% 98%;
-    --muted-foreground: 0 0% 65%;
+    --muted-foreground: 0 0% 68%;
     
     /* Border & Ring Colors */
-    --border: 237 34% 18%;
-    --ring: 186 100% 50%;
+    --border: 305 8% 16%;
+    --ring: 305 88% 62%;
     
     /* Gradients */
-    --gradient-sunset: linear-gradient(135deg, hsl(var(--neon-orange) / 0.8), hsl(var(--neon-magenta) / 0.6));
-    --gradient-cyber: linear-gradient(135deg, hsl(var(--neon-cyan) / 0.8), hsl(var(--neon-violet) / 0.6));
+    --gradient-sunset: linear-gradient(135deg, hsl(var(--accent) / 0.9), hsl(var(--accent-alt) / 0.7));
+    --gradient-cyber: linear-gradient(135deg, hsl(var(--accent-alt) / 0.9), hsl(var(--accent) / 0.7));
     --gradient-vignette: radial-gradient(circle at center, transparent 0%, hsl(var(--deep) / 0.8) 100%);
     
     /* Glass Effects */
-    --glass-bg: hsla(237, 34%, 12%, 0.2);
-    --glass-border: hsla(0, 0%, 100%, 0.1);
+    /* -------------------------------------------------------------------
+       VERRE
+       -------------------------------------------------------------------
+       Trois couches, là où il n'y avait qu'un flou.
+
+       `saturate` est ce qui distingue le matériau d'Apple d'un simple flou :
+       il ravive les couleurs qui passent derrière, si bien que la pochette
+       posée sous une carte continue de la teinter. Sans lui, le verre
+       grisaille tout ce qu'il recouvre.
+
+       La bordure est un dégradé et non une ligne unie : plus claire en haut,
+       éteinte en bas, comme une arête qui capte la lumière du dessus. C'est
+       ce détail qui donne l'épaisseur, et c'est ce qui manquait.
+       ------------------------------------------------------------------- */
+    --glass-bg: hsl(305 8% 12% / 0.28);
+    --glass-border: hsl(0 0% 100% / 0.12);
+    --glass-highlight: hsl(0 0% 100% / 0.22);
     
     /* Shadows & Glows */
-    --glow-orange: 0 0 24px hsla(24, 100%, 50%, 0.45);
-    --glow-cyan: 0 0 24px hsla(186, 100%, 50%, 0.45);
-    --glow-magenta: 0 0 24px hsla(325, 98%, 57%, 0.45);
-    --glow-violet: 0 0 24px hsla(254, 76%, 68%, 0.45);
+    /* Deux halos seulement. Le premier signale, le second accompagne. */
+    --glow-accent: 0 0 28px hsl(var(--accent) / 0.45);
+    --glow-accent-alt: 0 0 28px hsl(var(--accent-alt) / 0.4);
     
     /* Other tokens */
     --radius: 1rem;
@@ -98,20 +124,49 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    @apply bg-neon-orange/30 rounded-full;
+    @apply bg-accent/30 rounded-full;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-neon-orange/50;
+    @apply bg-accent/50;
   }
 }
 
 @layer components {
   /* Glass morphism base */
   .glass {
+    position: relative;
     background: var(--glass-bg);
-    backdrop-filter: blur(20px);
+    /* `saturate` avant `blur` : on ravive puis on diffuse. L'inverse diffuse
+       d'abord, et il ne reste plus grand-chose à raviver. */
+    backdrop-filter: saturate(180%) blur(22px);
+    -webkit-backdrop-filter: saturate(180%) blur(22px);
     border: 1px solid var(--glass-border);
+    /* L'ombre portée détache la carte du fond ; l'ombre interne haute dessine
+       l'épaisseur du verre par en dessous. */
+    box-shadow:
+      0 8px 32px hsl(0 0% 0% / 0.4),
+      inset 0 1px 0 0 var(--glass-highlight);
+  }
+
+  /* Le liseré spéculaire : un trait de lumière qui court sur l'arête
+     supérieure et s'éteint aux angles, comme sur une tranche de verre
+     éclairée par le haut. `pointer-events: none` pour qu'il n'intercepte
+     jamais un clic destiné à la carte. */
+  .glass::after {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--glass-highlight) 20%,
+      var(--glass-highlight) 80%,
+      transparent
+    );
+    pointer-events: none;
+    border-radius: inherit;
   }
   
   /* Animated border effects */
@@ -130,11 +185,11 @@
     right: -2px;
     bottom: -2px;
     background: linear-gradient(45deg, 
-      hsl(var(--neon-cyan)), 
-      hsl(var(--neon-orange)), 
-      hsl(var(--neon-magenta)), 
-      hsl(var(--neon-violet)),
-      hsl(var(--neon-cyan))
+      hsl(var(--accent-alt)), 
+      hsl(var(--accent)), 
+      hsl(var(--accent)), 
+      hsl(var(--accent-alt)),
+      hsl(var(--accent-alt))
     );
     background-size: 300% 300%;
     border-radius: inherit;
@@ -143,21 +198,9 @@
   }
   
   /* Neon glow effects */
-  .glow-orange {
-    box-shadow: var(--glow-orange);
-  }
   
-  .glow-cyan {
-    box-shadow: var(--glow-cyan);
-  }
   
-  .glow-magenta {
-    box-shadow: var(--glow-magenta);
-  }
   
-  .glow-violet {
-    box-shadow: var(--glow-violet);
-  }
   
   /* Gradient overlays */
   .bg-vignette {
@@ -174,14 +217,14 @@
   
   /* Text gradients */
   .text-gradient-neon {
-    background: linear-gradient(135deg, hsl(var(--neon-orange)), hsl(var(--neon-cyan)));
+    background: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-alt)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   
   .text-gradient-cyber {
-    background: linear-gradient(135deg, hsl(var(--neon-cyan)), hsl(var(--neon-violet)));
+    background: linear-gradient(135deg, hsl(var(--accent-alt)), hsl(var(--accent-alt)));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -214,9 +257,9 @@
   /* Waveform decoration */
   .waveform {
     background: linear-gradient(90deg, 
-      hsl(var(--neon-cyan)) 0%, 
-      hsl(var(--neon-violet)) 50%, 
-      hsl(var(--neon-magenta)) 100%
+      hsl(var(--accent-alt)) 0%, 
+      hsl(var(--accent-alt)) 50%, 
+      hsl(var(--accent)) 100%
     );
     height: 2px;
     border-radius: 1px;
@@ -277,16 +320,16 @@
   
   @keyframes borderPulse {
     0%, 100% {
-      border-color: hsl(var(--neon-cyan) / 0.5);
-      box-shadow: 0 0 16px hsl(var(--neon-cyan) / 0.3);
+      border-color: hsl(var(--accent-alt) / 0.5);
+      box-shadow: 0 0 16px hsl(var(--accent-alt) / 0.3);
     }
     33% {
-      border-color: hsl(var(--neon-orange) / 0.5);
-      box-shadow: 0 0 16px hsl(var(--neon-orange) / 0.3);
+      border-color: hsl(var(--accent) / 0.5);
+      box-shadow: 0 0 16px hsl(var(--accent) / 0.3);
     }
     66% {
-      border-color: hsl(var(--neon-magenta) / 0.5);
-      box-shadow: 0 0 16px hsl(var(--neon-magenta) / 0.3);
+      border-color: hsl(var(--accent) / 0.5);
+      box-shadow: 0 0 16px hsl(var(--accent) / 0.3);
     }
   }
   
@@ -355,11 +398,11 @@
   
   .animate-border-rotate {
     background: linear-gradient(45deg, 
-      hsl(var(--neon-cyan)), 
-      hsl(var(--neon-orange)), 
-      hsl(var(--neon-magenta)), 
-      hsl(var(--neon-violet)),
-      hsl(var(--neon-cyan))
+      hsl(var(--accent-alt)), 
+      hsl(var(--accent)), 
+      hsl(var(--accent)), 
+      hsl(var(--accent-alt)),
+      hsl(var(--accent-alt))
     );
     background-size: 300% 300%;
     animation: borderRotate 3s ease infinite;
@@ -369,34 +412,57 @@
     animation: borderPulse 2s ease-in-out infinite;
   }
   
-  /* Hover effects */
-  .hover-glow-orange {
+  /* -----------------------------------------------------------------
+     HALOS AU SURVOL
+     -----------------------------------------------------------------
+     Deux classes, là où il y en avait quatre. `glow-accent` souligne ce
+     qui appelle un geste ; `glow-accent-alt` accompagne le reste.
+
+     Les quatre anciens noms — orange, cyan, magenta, violet — sont
+     conservés comme alias vers l'une ou l'autre. Ils sont employés à une
+     centaine d'endroits dans les composants, et les renommer d'un bloc
+     aurait mélangé une refonte visuelle avec un renommage massif : deux
+     changements qu'on ne veut pas relire ensemble. Les alias les
+     ramènent tous à la nouvelle palette dès maintenant.
+     ----------------------------------------------------------------- */
+  .glow-accent,
+  .glow-orange,
+  .glow-magenta {
+    box-shadow: var(--glow-accent);
+  }
+
+  .glow-accent-alt,
+  .glow-cyan,
+  .glow-violet {
+    box-shadow: var(--glow-accent-alt);
+  }
+
+  .hover-glow-accent,
+  .hover-glow-accent-alt,
+  .hover-glow-orange,
+  .hover-glow-cyan,
+  .hover-glow-magenta,
+  .hover-glow-violet {
     transition: var(--transition);
   }
-  
-  .hover-glow-orange:hover {
-    box-shadow: var(--glow-orange);
-    transform: translateY(-2px);
-  }
-  
-  .hover-glow-cyan:hover {
-    box-shadow: var(--glow-cyan);
-    transform: translateY(-2px);
-  }
-  
+
+  .hover-glow-accent:hover,
+  .hover-glow-orange:hover,
   .hover-glow-magenta:hover {
-    box-shadow: var(--glow-magenta);
+    box-shadow: var(--glow-accent);
     transform: translateY(-2px);
   }
-  
+
+  .hover-glow-accent-alt:hover,
+  .hover-glow-cyan:hover,
   .hover-glow-violet:hover {
-    box-shadow: var(--glow-violet);
+    box-shadow: var(--glow-accent-alt);
     transform: translateY(-2px);
   }
-  
+
   /* Custom slider styles */
   .slider {
-    background: linear-gradient(to right, hsl(var(--neon-cyan)) 0%, hsl(var(--neon-orange)) 100%);
+    background: linear-gradient(to right, hsl(var(--accent-alt)) 0%, hsl(var(--accent)) 100%);
     outline: none;
     cursor: pointer;
   }
@@ -406,19 +472,19 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: hsl(var(--neon-cyan));
+    background: hsl(var(--accent-alt));
     cursor: pointer;
-    box-shadow: 0 0 8px hsl(var(--neon-cyan) / 0.5);
+    box-shadow: 0 0 8px hsl(var(--accent-alt) / 0.5);
   }
   
   .slider::-moz-range-thumb {
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: hsl(var(--neon-cyan));
+    background: hsl(var(--accent-alt));
     cursor: pointer;
     border: none;
-    box-shadow: 0 0 8px hsl(var(--neon-cyan) / 0.5);
+    box-shadow: 0 0 8px hsl(var(--accent-alt) / 0.5);
   }
   
   /* Gold slider styles for audio player */
@@ -500,13 +566,16 @@
    qui est précisément la raison pour laquelle l'ancien réglage avait été
    supprimé plutôt que corrigé.
 
-   Le cyan est celui de la charte, et son contraste sur le fond sombre dépasse
-   largement les 3:1 exigés. Le décalage de 2px empêche l'anneau de mordre sur
-   le contenu.
+   Le violet plutôt que le fuchsia, délibérément : le fuchsia signale ce qui
+   appelle un geste, et un anneau de focus n'est pas un appel à l'action mais
+   une position. Les distinguer évite qu'un élément simplement survolé au
+   clavier ait l'air d'un bouton principal. Son contraste est de 5,36:1 sur ce
+   fond, bien au-delà des 3:1 exigés. Le décalage de 2px empêche l'anneau de
+   mordre sur le contenu.
 --------------------------------------------------------------------------- */
 @layer base {
   :focus-visible {
-    outline: 2px solid hsl(var(--neon-cyan));
+    outline: 2px solid hsl(var(--accent-alt));
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -516,7 +585,7 @@
   .focus\:outline-none:focus-visible,
   button:focus-visible,
   a:focus-visible {
-    outline: 2px solid hsl(var(--neon-cyan));
+    outline: 2px solid hsl(var(--accent-alt));
     outline-offset: 2px;
   }
 }

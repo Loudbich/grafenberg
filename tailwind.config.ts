@@ -34,33 +34,54 @@ export default {
         inter: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
-        // Synthwave neon palette
+        /**
+         * DEUX ACCENTS, ET DES ALIAS VERS EUX.
+         *
+         * `accent` (fuchsia) et `accent-alt` (violet) sont relevés sur le
+         * lettrage de la marque. Tout le reste ci-dessous n'existe que pour
+         * y rediriger l'existant.
+         *
+         * Les familles `neon`, `gold` et `amber` sont employées à plus de
+         * cent endroits. Les renommer d'un bloc aurait mélangé une refonte
+         * visuelle avec un renommage massif — deux changements qu'on ne veut
+         * pas relire ensemble, et dont l'un masquerait les erreurs de
+         * l'autre. Elles pointent donc vers la nouvelle palette : le site
+         * change de couleur sans qu'une seule classe soit touchée, et le
+         * renommage peut suivre à froid.
+         */
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          alt: "hsl(var(--accent-alt))",
+        },
+
+        // Alias — voir la note ci-dessus.
         neon: {
-          orange: "hsl(var(--neon-orange))",
-          cyan: "hsl(var(--neon-cyan))",
-          magenta: "hsl(var(--neon-magenta))",
-          violet: "hsl(var(--neon-violet))",
+          orange: "hsl(var(--accent))",
+          cyan: "hsl(var(--accent-alt))",
+          magenta: "hsl(var(--accent))",
+          violet: "hsl(var(--accent-alt))",
         },
-        // Gold orange palette
         gold: {
-          DEFAULT: "hsl(var(--gold))",
-          dark: "hsl(var(--gold-dark))",
-          light: "hsl(var(--gold-light))",
+          DEFAULT: "hsl(var(--accent))",
+          dark: "hsl(var(--accent-alt))",
+          light: "hsl(var(--accent))",
         },
-        // Amber palette (for compatibility)
+        // L'échelle ambre servait au bloc vinyle, seule zone dorée du site.
+        // Elle devenait la troisième famille de couleurs d'un thème qui n'en
+        // veut que deux ; ses degrés suivent maintenant l'accent.
         amber: {
-          50: "#fffbeb",
-          100: "#fef3c7",
-          200: "#fde68a",
-          300: "#fcd34d",
-          400: "#fbbf24",
-          500: "#f59e0b",
-          600: "#d97706",
-          700: "#b45309",
-          800: "#92400e",
-          900: "#78350f",
-          950: "#451a03",
-          DEFAULT: "hsl(var(--amber))",
+          50: "hsl(var(--accent) / 0.06)",
+          100: "hsl(var(--accent) / 0.12)",
+          200: "hsl(var(--accent) / 0.2)",
+          300: "hsl(var(--accent) / 0.45)",
+          400: "hsl(var(--accent))",
+          500: "hsl(var(--accent))",
+          600: "hsl(var(--accent) / 0.85)",
+          700: "hsl(var(--accent-alt))",
+          800: "hsl(var(--accent-alt) / 0.6)",
+          900: "hsl(var(--accent-alt) / 0.35)",
+          950: "hsl(var(--accent-alt) / 0.18)",
+          DEFAULT: "hsl(var(--accent))",
         },
         // Gray palette (for compatibility)
         gray: {
