@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { dimsOf } from '@/data/assets';
 
 const MainNavbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -30,6 +31,7 @@ const MainNavbar = () => {
     { path: '/', label: 'Home' },
     { path: '/#discography', label: 'Discography' },
     { path: '/#artist', label: 'Artist' },
+    { path: '/label', label: 'Label' },
     { path: '/#contact', label: 'Contact' },
   ];
 
@@ -63,8 +65,8 @@ const MainNavbar = () => {
               // Les dimensions réservent la place avant que l'image n'arrive :
               // sans elles, la barre de navigation se réorganise au chargement
               // et pousse le menu sur le côté.
-              width={480}
-              height={164}
+              width={dimsOf('logo').w}
+              height={dimsOf('logo').h}
               // Le logo est le premier élément visible de chaque page : il ne
               // doit pas être différé.
               loading="eager"

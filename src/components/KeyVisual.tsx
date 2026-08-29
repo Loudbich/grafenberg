@@ -19,6 +19,8 @@
  * changement de cadrage coïncide avec celui de la mise en page.
  * -----------------------------------------------------------------------------
  */
+import { dimsOf } from '@/data/assets';
+
 const KeyVisual = () => (
   <section aria-label="Grafenberg & Nyla Vey" className="relative">
     <picture>
@@ -26,16 +28,16 @@ const KeyVisual = () => (
         media="(max-width: 767px)"
         srcSet="/brand/key-visual-mobile-720.webp 720w, /brand/key-visual-mobile.webp 1080w"
         sizes="100vw"
-        width={1080}
-        height={1920}
+        width={dimsOf('key-visual-mobile').w}
+        height={dimsOf('key-visual-mobile').h}
       />
       <img
         src="/brand/key-visual.webp"
         srcSet="/brand/key-visual-1280.webp 1280w, /brand/key-visual-1920.webp 1920w, /brand/key-visual.webp 2560w"
         sizes="100vw"
         alt="Grafenberg et Nyla Vey sur un toit, devant une ville nocturne aux néons violets"
-        width={2560}
-        height={1072}
+        width={dimsOf('key-visual').w}
+        height={dimsOf('key-visual').h}
         // Le bandeau est loin sous la ligne de flottaison : rien ne justifie de
         // le charger avant que le visiteur y arrive.
         loading="lazy"

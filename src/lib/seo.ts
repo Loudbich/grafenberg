@@ -20,6 +20,7 @@
  * -----------------------------------------------------------------------------
  */
 
+import { roster, labelUrl } from '@/data/roster';
 import {
   albums,
   catalogue,
@@ -227,6 +228,37 @@ export function releaseSeo(release: Release): RouteSeo {
   };
 }
 
+export function labelSeo(): RouteSeo {
+  return {
+    path: '/label',
+    title: 'Kinetic Distro — the label behind Grafenberg',
+    description:
+      'The independent label that releases Grafenberg’s records, and the one he directs. Eleven artists working at the intersection of genres, cultures and eras.',
+    ogType: 'website',
+    image: SHARE_IMAGE,
+    graph: [
+      labelEntity(),
+      artistEntity(),
+      {
+        '@type': 'CollectionPage',
+        '@id': `${abs('/label')}#page`,
+        url: abs('/label'),
+        name: 'Kinetic Distro — the label behind Grafenberg',
+        // Les artistes sont cités par nom et par URL, sans être décrits : leurs
+        // fiches complètes vivent sur le site du label, et deux graphes
+        // décrivant la même entité se contrediraient tôt ou tard.
+        about: { '@id': ID.label },
+        mentions: roster.map((artist) => ({
+          '@type': 'MusicGroup',
+          name: artist.name,
+          genre: artist.genre,
+          url: labelUrl(artist.slug),
+        })),
+      },
+    ],
+  };
+}
+
 export function notFoundSeo(): RouteSeo {
   return {
     path: '/404',
@@ -241,7 +273,7 @@ export function notFoundSeo(): RouteSeo {
 
 /** Toutes les routes que le prérendu doit produire. */
 export function allRoutes(): RouteSeo[] {
-  return [homeSeo(), ...catalogue.map(releaseSeo), notFoundSeo()];
+  return [homeSeo(), ...catalogue.map(releaseSeo), labelSeo(), notFoundSeo()];
 }
 
 /**
@@ -256,6 +288,7 @@ export const jsonLd = (route: RouteSeo) =>
 /** Le SEO de la route correspondant à un chemin, pour <PageMeta/>. */
 export function seoForPath(pathname: string): RouteSeo {
   if (pathname === '/' || pathname === '') return homeSeo();
+  if (pathname === '/label' || pathname === '/label/') return labelSeo();
 
   const match = pathname.match(/^\/album\/([^/]+)\/?$/);
   const release = match ? catalogue.find((r) => r.slug === match[1]) : undefined;

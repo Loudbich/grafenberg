@@ -4,6 +4,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import AlbumPage from './pages/AlbumPage';
+import Label from './pages/Label';
 import NotFound from './pages/NotFound';
 import ScrollToTop from './components/ScrollToTop';
 
@@ -31,6 +32,7 @@ const App = () => (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/album/:slug" element={<AlbumPage />} />
+      <Route path="/label" element={<Label />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   </TooltipProvider>

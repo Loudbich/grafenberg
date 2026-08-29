@@ -1,5 +1,6 @@
 import { Mic2, Users, Disc3, Compass } from 'lucide-react';
 import { collabCount, links, soloCount, spellOut } from '@/data/catalog';
+import { dimsOf } from '@/data/assets';
 
 /**
  * L'artiste.
@@ -103,8 +104,8 @@ const Artist = () => (
             <img
               src="/brand/portrait.webp"
               alt="Grafenberg"
-              width={640}
-              height={480}
+              width={dimsOf('portrait').w}
+              height={dimsOf('portrait').h}
               loading="lazy"
               className="w-full rounded-xl object-cover"
             />

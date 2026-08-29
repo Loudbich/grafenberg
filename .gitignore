@@ -36,3 +36,11 @@ dist-ssr
 # assets/artworks/mobile/Artwork_Grafenberg.webp. Le versionner alourdirait
 # l'historique pour toujours, sans que le site s'en serve.
 assets/artworks/mobile/magnifics_upscale-*.png
+
+# Fichiers de travail du roster : le PSD du carrousel (282 Mo), l'export PNG
+# de VEIN//Mirror superseded par son WebP (22 Mo), les archives, et le
+# « Iron Covenant.webp » qui est en réalité un WAV de 45 Mo renommé.
+assets/roster kinetic distro/*.psd
+assets/roster kinetic distro/Archives/
+assets/roster kinetic distro/VEIN MIRROR.png
+assets/roster kinetic distro/Iron Covenant.webp
