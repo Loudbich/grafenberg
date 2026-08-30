@@ -80,7 +80,7 @@ const AlbumPage = () => {
                 {yearOf(release) && ` • ${yearOf(release)}`}
               </span>
 
-              <h1 className="font-orbitron text-gradient-neon mb-3 text-4xl font-bold md:text-5xl">
+              <h1 className="font-display text-gradient-neon mb-3 text-4xl font-bold md:text-5xl">
                 {release.title}
               </h1>
 
@@ -113,7 +113,7 @@ const AlbumPage = () => {
               paragraphes courts et que les aplatir les rend illisibles. */}
           {release.description && (
             <section className="mt-16">
-              <h2 className="font-orbitron mb-6 text-2xl font-bold">About</h2>
+              <h2 className="font-display mb-6 text-2xl font-bold">About</h2>
               <div className="waveform mb-8 max-w-xs" />
               <p className="text-muted-foreground max-w-3xl whitespace-pre-line leading-relaxed">
                 {release.description}
@@ -127,7 +127,7 @@ const AlbumPage = () => {
           {/* Tracklist */}
           {tracks.length > 0 && (
             <section className="mt-16">
-              <h2 className="font-orbitron mb-6 text-2xl font-bold">Tracklist</h2>
+              <h2 className="font-display mb-6 text-2xl font-bold">Tracklist</h2>
               <div className="waveform mb-8 max-w-xs" />
 
               <ol className="glass divide-foreground/5 divide-y rounded-2xl">

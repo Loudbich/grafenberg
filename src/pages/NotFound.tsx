@@ -27,8 +27,8 @@ const NotFound = () => (
 
     <main className="px-6 pb-24 pt-40">
       <div className="container mx-auto max-w-5xl text-center">
-        <p className="font-orbitron text-gradient-neon mb-4 text-7xl font-black md:text-8xl">404</p>
-        <h1 className="font-orbitron text-foreground mb-4 text-2xl font-bold md:text-3xl">
+        <p className="font-display text-gradient-neon mb-4 text-7xl font-black md:text-8xl">404</p>
+        <h1 className="font-display text-foreground mb-4 text-2xl font-bold md:text-3xl">
           This page does not exist
         </h1>
         <div className="waveform mx-auto mb-6 max-w-xs" />

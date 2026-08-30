@@ -157,7 +157,7 @@ const MainNavbar = () => {
                 key={link.path}
                 to={link.path}
                 onClick={closeMobileMenu}
-                className={`font-orbitron xs:text-3xl text-2xl font-bold transition-colors duration-300 ${
+                className={`font-display xs:text-3xl text-2xl font-bold transition-colors duration-300 ${
                   isActive(link.path) ? 'text-accent' : 'text-foreground hover:text-accent'
                 }`}
               >

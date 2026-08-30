@@ -12,12 +12,24 @@ import App from './App.tsx';
  * cherchent à éviter. C'est aussi une feuille de style bloquante sur un
  * troisième domaine, à résoudre et à négocier avant de pouvoir peindre du texte.
  *
- * Seules les graisses réellement utilisées sont importées : Orbitron pour les
- * titres (700 et 900), Inter en variable pour le texte courant.
+ * UNE SEULE FAMILLE, et c'est un choix.
+ *
+ * Les titres étaient en Orbitron. C'est la police « futuriste » par défaut de
+ * Google Fonts, présente sur des milliers de sites du même genre : elle ne
+ * signalait pas Grafenberg, elle signalait qu'on avait voulu faire techno. Et
+ * sa lourdeur géométrique contredisait le noir et le verre.
+ *
+ * Surtout, le site porte déjà trente-deux lettrages dessinés — le logo, dix-sept
+ * pochettes, quatorze bandeaux — chacun avec sa propre typographie. Une police
+ * de titre marquée y ajoutait une voix de plus, qui parlait par-dessus les
+ * autres. L'interface se tait ; les images parlent.
+ *
+ * `opsz` et non `wght` : la variante à axe optique. Inter y ajuste ses
+ * proportions selon la taille de rendu — plus resserrée et plus fine en grand,
+ * plus ouverte en petit. C'est ce qui distingue une typographie composée d'une
+ * typographie simplement posée, et le fichier ne coûte pas plus cher.
  */
-import '@fontsource/orbitron/700.css';
-import '@fontsource/orbitron/900.css';
-import '@fontsource-variable/inter';
+import '@fontsource-variable/inter/opsz.css';
 
 import './index.css';
 

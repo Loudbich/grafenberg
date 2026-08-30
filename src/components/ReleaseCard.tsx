@@ -81,7 +81,7 @@ const ReleaseCard = ({ release, priority = false }: Props) => {
       </div>
 
       <h3
-        className={`font-orbitron text-foreground mb-1 text-xl font-bold transition-colors duration-300 ${style.groupHoverText}`}
+        className={`font-display text-foreground mb-1 text-xl font-bold transition-colors duration-300 ${style.groupHoverText}`}
       >
         {release.title}
       </h3>

@@ -15,7 +15,7 @@ const Discography = () => (
 
     <div data-reveal className="relative z-10 container mx-auto max-w-6xl">
       <div className="mb-16 text-center">
-        <h2 className="font-orbitron text-gradient-neon mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
+        <h2 className="font-display text-gradient-neon mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
           Discography
         </h2>
         <div className="waveform mx-auto mb-6 max-w-xs" />
@@ -34,7 +34,7 @@ const Discography = () => (
       {secondary.length > 0 && (
         <div className="mt-24">
           <div className="mb-12 text-center">
-            <h3 className="font-orbitron text-gradient-cyber mb-4 text-2xl font-bold md:text-3xl">
+            <h3 className="font-display text-gradient-cyber mb-4 text-2xl font-bold md:text-3xl">
               EPs, remixes & singles
             </h3>
             <div className="waveform mx-auto max-w-xs" />

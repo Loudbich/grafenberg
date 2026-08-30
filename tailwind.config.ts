@@ -30,7 +30,11 @@ export default {
         // Les noms sont ceux que @fontsource enregistre : le paquet variable
         // d'Inter déclare « Inter Variable », pas « Inter ». Écrire « Inter »
         // ici retomberait silencieusement sur la police système.
-        orbitron: ['Orbitron', 'ui-monospace', 'monospace'],
+        //
+        // `display` et `inter` désignent la même famille : la distinction entre
+        // titre et texte se fait par la graisse et l'approche, pas par une
+        // seconde police. `display` existe pour que le balisage puisse le dire.
+        display: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
         inter: ['Inter Variable', 'Inter', 'system-ui', 'sans-serif'],
       },
       colors: {

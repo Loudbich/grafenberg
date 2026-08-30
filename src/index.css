@@ -549,6 +549,37 @@
 
   body {
     @apply bg-background text-foreground;
+    /* L'axe optique d'Inter, laissé au navigateur : il resserre les
+       proportions dans les grandes tailles et les ouvre dans les petites.
+       C'est ce qui distingue une typographie composée d'une typographie
+       simplement posée — et c'est le seul réglage à faire, la variable fait
+       le reste. */
+    font-optical-sizing: auto;
+  }
+
+  /*
+   * L'APPROCHE DES TITRES
+   * ---------------------------------------------------------------------
+   * Une seule famille sert désormais les titres et le texte : ce qui les
+   * distingue est la graisse et l'approche, non une seconde police. Sans ce
+   * resserrement, un gros titre en Inter garde l'espacement calculé pour du
+   * corps de texte et paraît lâche — c'est ce qui fait qu'une police neutre
+   * a l'air « par défaut » plutôt que dessinée.
+   *
+   * Posé sur les titres seuls : les libellés en capitales espacées sont des
+   * <p> et des <span> portant leur propre `tracking-*`, que les utilitaires
+   * Tailwind appliquent après cette règle et qui l'emportent donc.
+   */
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.025em;
+  }
+
+  h4,
+  h5,
+  h6 {
+    letter-spacing: -0.015em;
   }
 }
 

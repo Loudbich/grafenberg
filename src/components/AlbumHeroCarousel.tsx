@@ -130,7 +130,7 @@ const AlbumHeroCarousel = () => {
                 {yearOf(currentAlbum)} • {badgeFor(currentAlbum)}
               </span>
               
-              <h1 className="font-orbitron font-black text-4xl xs:text-5xl sm:text-6xl md:text-7xl mb-6 text-gradient-neon drop-shadow-2xl">
+              <h1 className="font-display font-black text-4xl xs:text-5xl sm:text-6xl md:text-7xl mb-6 text-gradient-neon drop-shadow-2xl">
                 {currentAlbum.title}
               </h1>
               
@@ -141,7 +141,7 @@ const AlbumHeroCarousel = () => {
               <div className="flex flex-col xs:flex-row gap-4 justify-center lg:justify-start">
                 <Button
                   asChild
-                  className="bg-neon-orange text-deep hover:bg-neon-orange/90 hover-glow-orange px-8 py-6 text-lg font-orbitron font-bold"
+                  className="bg-neon-orange text-deep hover:bg-neon-orange/90 hover-glow-orange px-8 py-6 text-lg font-display font-bold"
                 >
                   <Link to={`/album/${currentAlbum.slug}`}>
                     <Play className="w-5 h-5 mr-2" />

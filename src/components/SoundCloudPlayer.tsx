@@ -87,7 +87,7 @@ const SoundCloudPlayer = ({ url, title, accent, variant = 'set', className = '' 
         <Play className="ml-1 h-7 w-7 fill-deep text-deep" />
       </span>
       <span className="text-center">
-        <span className="font-orbitron block text-lg font-bold text-foreground">
+        <span className="font-display block text-lg font-bold text-foreground">
           Play the album
         </span>
         <span className="mt-1 block text-sm text-muted-foreground">

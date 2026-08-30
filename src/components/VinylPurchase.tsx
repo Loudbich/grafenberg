@@ -55,7 +55,7 @@ const VinylPurchase = ({ release, variant = 'section' }: VinylPurchaseProps) => 
               <Disc3 className="w-5 h-5 text-amber-400" />
               <span className="text-amber-400 text-sm font-medium uppercase tracking-wider">Vinyl edition</span>
             </div>
-            <h3 className="font-orbitron font-bold text-xl md:text-2xl text-amber-100 mb-2">
+            <h3 className="font-display font-bold text-xl md:text-2xl text-amber-100 mb-2">
               {albumName}
             </h3>
             <p className="text-amber-200/60 text-sm mb-4">
@@ -132,7 +132,7 @@ const VinylPurchase = ({ release, variant = 'section' }: VinylPurchaseProps) => 
                 </span>
               </div>
               
-              <h2 className="font-orbitron font-black text-3xl md:text-4xl lg:text-5xl text-amber-100 mb-4">
+              <h2 className="font-display font-black text-3xl md:text-4xl lg:text-5xl text-amber-100 mb-4">
                 {albumName}
               </h2>
               

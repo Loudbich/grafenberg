@@ -99,10 +99,10 @@ const Artist = () => (
 
     <div data-reveal className="relative z-10 container mx-auto max-w-6xl">
       <div className="mb-16 text-center">
-        <p className="text-neon-cyan font-orbitron mb-4 text-sm uppercase tracking-[0.3em]">
+        <p className="text-neon-cyan font-display mb-4 text-sm uppercase tracking-[0.3em]">
           From the DJ booths of the 1990s to the sonic worlds of the 2020s
         </p>
-        <h2 className="font-orbitron text-gradient-neon mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
+        <h2 className="font-display text-gradient-neon mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
           The Artist
         </h2>
         <div className="waveform mx-auto max-w-xs" />
@@ -125,7 +125,7 @@ const Artist = () => (
             />
           </div>
           <div className="mt-6 text-center">
-            <h3 className="font-orbitron text-foreground text-2xl font-bold">Ludovic Debay</h3>
+            <h3 className="font-display text-foreground text-2xl font-bold">Ludovic Debay</h3>
             <p className="text-muted-foreground mt-1 text-sm uppercase tracking-widest">
               alias Grafenberg
             </p>
@@ -141,7 +141,7 @@ const Artist = () => (
 
           {/* La chute de la biographie, détachée du corps parce qu'elle est
               écrite comme une signature et non comme un paragraphe. */}
-          <p className="font-orbitron text-gradient-cyber pt-2 text-xl font-bold leading-snug">
+          <p className="font-display text-gradient-cyber pt-2 text-xl font-bold leading-snug">
             Grafenberg does not simply release records.
             <br />
             Grafenberg builds worlds through sound.
@@ -150,7 +150,7 @@ const Artist = () => (
       </div>
 
       <div className="mt-20">
-        <h3 className="font-orbitron text-gradient-cyber mb-8 text-center text-2xl font-bold md:text-3xl">
+        <h3 className="font-display text-gradient-cyber mb-8 text-center text-2xl font-bold md:text-3xl">
           The wider universe
         </h3>
 
@@ -163,7 +163,7 @@ const Artist = () => (
 
       <div className="mt-16 text-center">
         <div className="glass hover:glow-orange mx-auto max-w-2xl rounded-2xl p-8 transition-all duration-500">
-          <h3 className="font-orbitron text-gradient-neon mb-4 text-2xl font-bold">
+          <h3 className="font-display text-gradient-neon mb-4 text-2xl font-bold">
             Follow the journey
           </h3>
           <p className="text-muted-foreground mb-6 text-lg">

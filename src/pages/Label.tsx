@@ -74,7 +74,7 @@ const ArtistCard = ({ artist, wide }: { artist: RosterArtist; wide: boolean }) =
       {/* Le dégradé n'est pas décoratif : ces visuels sont clairs par endroits,
           et le texte y deviendrait illisible sans un fond qui lui appartienne. */}
       <div className="from-deep via-deep/70 absolute inset-x-0 bottom-0 bg-gradient-to-t to-transparent p-6 pt-20">
-        <h3 className="font-orbitron text-foreground text-xl font-bold md:text-2xl">
+        <h3 className="font-display text-foreground text-xl font-bold md:text-2xl">
           {artist.name}
         </h3>
         <p className={`mt-1 text-sm ${style.text}`}>{artist.genre}</p>
@@ -101,10 +101,10 @@ const Label = () => {
       <main className="px-6 pb-24 pt-32">
         <div data-reveal className="container mx-auto max-w-6xl">
           <header className="mb-16 text-center">
-            <p className="text-neon-cyan font-orbitron mb-4 text-sm uppercase tracking-[0.3em]">
+            <p className="text-neon-cyan font-display mb-4 text-sm uppercase tracking-[0.3em]">
               The wider universe
             </p>
-            <h1 className="font-orbitron text-gradient-neon mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
+            <h1 className="font-display text-gradient-neon mb-6 text-4xl font-bold md:text-5xl lg:text-6xl">
               Kinetic Distro
             </h1>
             <div className="waveform mx-auto mb-8 max-w-xs" />

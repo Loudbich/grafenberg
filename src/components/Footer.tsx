@@ -12,7 +12,7 @@ const Footer = () => {
         {/* Main Footer Content */}
         <div className="text-center mb-8">
           {/* Brand */}
-          <h3 className="font-orbitron font-bold text-3xl text-gradient-neon mb-4">
+          <h3 className="font-display font-bold text-3xl text-gradient-neon mb-4">
             GRAFENBERG
           </h3>
           

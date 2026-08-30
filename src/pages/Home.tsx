@@ -57,7 +57,7 @@ const Home = () => {
           <div className="from-deep via-surface/5 to-deep absolute inset-0 bg-gradient-to-t" />
 
           <div data-reveal className="relative z-10 container mx-auto max-w-4xl text-center">
-            <h2 className="font-orbitron text-gradient-cyber mb-6 text-4xl font-bold md:text-5xl">
+            <h2 className="font-display text-gradient-cyber mb-6 text-4xl font-bold md:text-5xl">
               Get in touch
             </h2>
             <div className="waveform mx-auto mb-6 max-w-xs" />
@@ -78,7 +78,7 @@ const Home = () => {
                   <Mail className="h-4 w-4" aria-hidden="true" />
                   Contact
                 </span>
-                <span className="font-orbitron text-foreground group-hover:text-accent text-xl font-bold transition-colors duration-300 md:text-2xl">
+                <span className="font-display text-foreground group-hover:text-accent text-xl font-bold transition-colors duration-300 md:text-2xl">
                   {contact.email}
                 </span>
                 <span className="text-muted-foreground mt-2 text-sm">
