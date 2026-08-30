@@ -35,7 +35,7 @@ const KeyVisual = () => (
         src="/brand/key-visual.webp"
         srcSet="/brand/key-visual-1280.webp 1280w, /brand/key-visual-1920.webp 1920w, /brand/key-visual.webp 2560w"
         sizes="100vw"
-        alt="Grafenberg et Nyla Vey sur un toit, devant une ville nocturne aux néons violets"
+        alt="Grafenberg and Nyla Vey on a rooftop, against a neon-lit night city"
         width={dimsOf('key-visual').w}
         height={dimsOf('key-visual').h}
         // Le bandeau est loin sous la ligne de flottaison : rien ne justifie de

@@ -137,8 +137,8 @@ const VinylPurchase = ({ release, variant = 'section' }: VinylPurchaseProps) => 
               </h2>
               
               <p className="text-amber-200/70 text-base md:text-lg mb-6 max-w-xl">
-                Découvrez l'expérience audio ultime avec le pressage vinyle de "{albumName}". 
-                Une édition limitée avec un artwork exclusif et une qualité sonore exceptionnelle.
+                “{albumName}” on vinyl — a limited pressing with exclusive artwork and the
+                dynamic range a stream cannot carry.
               </p>
               
               <div className="flex flex-wrap justify-center lg:justify-start gap-4 mb-8">
