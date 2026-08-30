@@ -14,5 +14,21 @@
   "portrait": {
     "w": 640,
     "h": 800
+  },
+  "universe-nyla-vey": {
+    "w": 1280,
+    "h": 536
+  },
+  "universe-broken-shaman": {
+    "w": 1280,
+    "h": 536
+  },
+  "universe-hollow-static": {
+    "w": 1280,
+    "h": 536
+  },
+  "universe-kinetic-distro": {
+    "w": 1280,
+    "h": 536
   }
 }

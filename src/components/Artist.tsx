@@ -1,6 +1,8 @@
-import { Mic2, Users, Disc3, Compass } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { collabCount, links, soloCount, spellOut } from '@/data/catalog';
 import { dimsOf } from '@/data/assets';
+import { facets, type Facet } from '@/data/facets';
+import { accentOf } from '@/lib/accent';
 
 /**
  * L'artiste.
@@ -12,50 +14,10 @@ import { dimsOf } from '@/data/assets';
  * que fait n'importe quel producteur ; ils disent maintenant ce que fait
  * celui-ci.
  *
- * Leurs classes de couleur sont écrites en toutes lettres. La version
- * précédente les composait (`bg-${color}/10`, `text-${color}`), ce que Tailwind
- * ne peut pas voir : aucune de ces classes n'existait dans le CSS produit, et
- * les icônes étaient rendues sans couleur depuis le début.
+ * Les quatre encarts portent désormais un bandeau chacun plutôt qu'une icône.
+ * Voir `data/facets.ts` : le nom y est peint dans l'image, le site n'en
+ * superpose donc aucun.
  */
-
-const facets = [
-  {
-    icon: Mic2,
-    title: 'Nyla Vey',
-    description:
-      'The permanent voice of the solo work — intimacy, seduction and controlled intensity, not a guest feature.',
-    card: 'hover:bg-neon-magenta/5 hover:glow-magenta',
-    chip: 'bg-neon-magenta/10 border-neon-magenta/30 group-hover:bg-neon-magenta/20',
-    icon_color: 'text-neon-magenta',
-  },
-  {
-    icon: Users,
-    title: 'Broken Shaman',
-    description:
-      'Two collaborative albums where electronic architecture meets fractured hip-hop and urban soul.',
-    card: 'hover:bg-neon-cyan/5 hover:glow-cyan',
-    chip: 'bg-neon-cyan/10 border-neon-cyan/30 group-hover:bg-neon-cyan/20',
-    icon_color: 'text-neon-cyan',
-  },
-  {
-    icon: Disc3,
-    title: 'Producing others',
-    description:
-      "Hollow Static's debut album, and further passages into darker club territory with Chromabone.",
-    card: 'hover:bg-neon-violet/5 hover:glow-violet',
-    chip: 'bg-neon-violet/10 border-neon-violet/30 group-hover:bg-neon-violet/20',
-    icon_color: 'text-neon-violet',
-  },
-  {
-    icon: Compass,
-    title: 'Kinetic Distro',
-    description:
-      'Artistic director of the label — connecting artists, records and visual identities into one universe.',
-    card: 'hover:bg-neon-orange/5 hover:glow-orange',
-    chip: 'bg-neon-orange/10 border-neon-orange/30 group-hover:bg-neon-orange/20',
-    icon_color: 'text-neon-orange',
-  },
-];
 
 /**
  * La biographie, en paragraphes.
@@ -78,6 +40,58 @@ const biography = [
   'As artistic director and mastermind of Kinetic Distro, Grafenberg connects artists, records, characters and visual identities into a constantly expanding creative universe. The role is not merely to produce music, but to recognise what each project could become and help it find its own language.',
   'Yet behind the producer, the curator and the architect, Grafenberg remains an artist first. A music lover still driven by the same impulse that existed behind the decks in the 1990s: the search for the next sound, the next emotion and the next door waiting to be opened.',
 ];
+
+/**
+ * Un encart de « The wider universe ».
+ *
+ * Le bandeau occupe le haut de la carte, sans voile ni texte par-dessus — son
+ * nom y est déjà peint. La description est posée en dessous, sur le verre, où
+ * son contraste ne dépend pas de la luminosité de l'image : celles-ci vont du
+ * blanc crème de Nyla Vey au noir de Kinetic Distro, et aucun voile unique
+ * n'aurait servi les deux.
+ */
+const FacetCard = ({ facet }: { facet: Facet }) => {
+  const style = accentOf(facet.accent);
+  const dims = dimsOf(`universe-${facet.slug}`);
+
+  const contenu = (
+    <>
+      <img
+        src={`/universe/${facet.slug}.webp`}
+        srcSet={`/universe/${facet.slug}-640.webp 640w, /universe/${facet.slug}.webp 1280w`}
+        sizes="(min-width: 640px) 546px, 90vw"
+        alt={facet.name}
+        width={dims.w}
+        height={dims.h}
+        loading="lazy"
+        decoding="async"
+        className="w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+      />
+      <p className="text-muted-foreground p-6 text-sm leading-relaxed">{facet.description}</p>
+    </>
+  );
+
+  const base = 'glass group block overflow-hidden rounded-xl transition-all duration-500';
+  // Le soulèvement et le halo ne s'appliquent qu'aux cartes qui mènent quelque
+  // part. Une carte qui réagit au survol sans rien faire promet un clic qu'elle
+  // ne tient pas — et Nyla Vey n'a pas de page où envoyer qui que ce soit.
+  const classes = facet.href ? `${base} hover:-translate-y-2 ${style.glow}` : base;
+
+  // Un lien interne passe par le routeur, un lien externe est une ancre, et
+  // une facette sans destination reste une simple carte. Rendre les trois de
+  // la même façon en aurait fait des liens morts.
+  if (!facet.href) return <div className={classes}>{contenu}</div>;
+
+  return facet.href.startsWith('/') ? (
+    <Link to={facet.href} className={classes}>
+      {contenu}
+    </Link>
+  ) : (
+    <a href={facet.href} target="_blank" rel="noopener noreferrer" className={classes}>
+      {contenu}
+    </a>
+  );
+};
 
 const Artist = () => (
   <section id="artist" className="relative px-6 py-24">
@@ -141,17 +155,8 @@ const Artist = () => (
         </h3>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          {facets.map(({ icon: Icon, title, description, card, chip, icon_color }) => (
-            <div
-              key={title}
-              className={`glass group rounded-xl p-6 transition-all duration-500 hover:-translate-y-2 ${card}`}
-            >
-              <div className={`mb-4 w-fit rounded-lg border p-3 transition-colors duration-300 ${chip}`}>
-                <Icon className={`h-6 w-6 ${icon_color}`} aria-hidden="true" />
-              </div>
-              <h4 className="font-orbitron text-foreground mb-2 text-lg font-bold">{title}</h4>
-              <p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
-            </div>
+          {facets.map((facet) => (
+            <FacetCard key={facet.slug} facet={facet} />
           ))}
         </div>
       </div>

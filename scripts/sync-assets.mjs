@@ -34,6 +34,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 const OUT_DIR = resolve(root, 'public/brand');
 const OUT_ROSTER = resolve(root, 'public/roster');
+const OUT_UNIVERSE = resolve(root, 'public/universe');
 
 /**
  * Les dimensions réellement produites, écrites pour que le balisage les lise.
@@ -126,6 +127,22 @@ const ROSTER_DIR = 'assets/roster kinetic distro';
 /** Deux jeux : bandeau large sur écran large, portrait sur téléphone. */
 const ROSTER_WIDE = { widths: [640, 1280], quality: 78, suffix: '' };
 const ROSTER_TALL = { widths: [480, 720], quality: 78, suffix: 'tall' };
+
+/**
+ * Les bandeaux de la section « The wider universe » de la page d'accueil.
+ *
+ * Un seul cadrage, contrairement au roster : ces bandeaux surmontent une carte
+ * dont la largeur varie peu — environ 546 px sur écran large, 343 sur
+ * téléphone. 640 couvre le second en 2x, 1280 le premier.
+ *
+ * Le nom est PEINT DANS L'IMAGE, chacun dans sa propre typographie. Le site
+ * n'en superpose donc aucun : ce serait l'écrire deux fois. C'est aussi
+ * pourquoi ces fichiers ne reçoivent ni voile ni dégradé — les luminosités
+ * vont du blanc crème de Nyla Vey au noir de Kinetic Distro, et un même voile
+ * ne peut pas servir les deux.
+ */
+const UNIVERSE_DIR = 'assets/the wider universe';
+const UNIVERSE = { widths: [640, 1280], quality: 80 };
 
 const dimensions = {};
 
@@ -275,9 +292,77 @@ async function encodeRoster(roster) {
   return { before, after };
 }
 
+/**
+ * Encode les bandeaux de « The wider universe ».
+ *
+ * Rattachement par slug, comme le roster : « broken shaman.webp » et
+ * « kinetic distro.webp » deviennent `broken-shaman` et `kinetic-distro`.
+ * Renommer un fichier source ne casse rien tant que le slug survit.
+ */
+async function encodeUniverse(sujets) {
+  const dir = resolve(root, UNIVERSE_DIR);
+  if (!existsSync(dir)) {
+    warn(`${UNIVERSE_DIR} est absent — bandeaux ignorés.`);
+    return { before: 0, after: 0 };
+  }
+
+  const slugify = (v) =>
+    v
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+
+  const trouve = new Map();
+  for (const f of readdirSync(dir, { withFileTypes: true })) {
+    if (!f.isFile() || !/\.(webp|png|jpe?g)$/i.test(f.name)) continue;
+    trouve.set(slugify(f.name.replace(/\.[^.]+$/, '')), join(dir, f.name));
+  }
+
+  let before = 0;
+  let after = 0;
+
+  for (const slug of sujets) {
+    const source = trouve.get(slug);
+    if (!source) {
+      warn(`« ${slug} » : pas de bandeau dans ${UNIVERSE_DIR}.`);
+      continue;
+    }
+
+    // Ouvert avant d'être encodé : c'est ce qui avait permis d'attraper un
+    // fichier audio renommé en .webp dans le dossier du roster.
+    let meta;
+    try {
+      meta = await sharp(source).metadata();
+      if (!meta.width) throw new Error('dimensions illisibles');
+    } catch (err) {
+      warn(`« ${slug} » : fichier illisible — ${err.message}. Ignoré.`);
+      continue;
+    }
+
+    before += statSync(source).size;
+
+    for (const width of UNIVERSE.widths) {
+      const widest = width === UNIVERSE.widths[UNIVERSE.widths.length - 1];
+      const out = widest ? `${slug}.webp` : `${slug}-${width}.webp`;
+      const info = await sharp(source)
+        .resize({ width, withoutEnlargement: true })
+        .webp({ quality: UNIVERSE.quality, effort: 5 })
+        .toFile(join(OUT_UNIVERSE, out));
+      after += info.size;
+      if (widest) dimensions[`universe-${slug}`] = { w: info.width, h: info.height };
+    }
+  }
+
+  log(`${sujets.length} bandeaux « wider universe » → public/universe/`);
+  return { before, after };
+}
+
 async function main() {
   mkdirSync(OUT_DIR, { recursive: true });
   mkdirSync(OUT_ROSTER, { recursive: true });
+  mkdirSync(OUT_UNIVERSE, { recursive: true });
 
   let before = 0;
   let after = 0;
@@ -293,6 +378,11 @@ async function main() {
   const r = await encodeRoster(otherArtists);
   before += r.before;
   after += r.after;
+
+  const { facets } = await import('../src/data/facets.ts');
+  const u = await encodeUniverse(facets.map((f) => f.slug));
+  before += u.before;
+  after += u.after;
 
   writeFileSync(MANIFEST, JSON.stringify(dimensions, null, 2) + '\n');
 
