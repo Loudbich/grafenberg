@@ -27,7 +27,7 @@ import {
 } from './releases';
 
 export type { ReleaseKind, Accent };
-export { links } from './releases';
+export { links, contact } from './releases';
 
 /** Ce qu'un composant reçoit : le manifeste, complété. */
 export type Release = CuratedRelease & {

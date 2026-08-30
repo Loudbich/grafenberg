@@ -275,6 +275,23 @@ export const findRelease = (slug: string): CuratedRelease | undefined =>
 export const SOUNDCLOUD_USER_ID = 50014017;
 export const SOUNDCLOUD_HANDLE = 'grafenbergmusik';
 
+/**
+ * Le contact professionnel.
+ *
+ * Le site n'en offrait aucun : un programmateur, un journaliste ou une agence
+ * de synchro qui arrivait ici n'avait pas d'adresse où écrire — seulement des
+ * liens de plateformes. C'est le genre d'absence qui coûte des occasions sans
+ * qu'on l'apprenne jamais.
+ *
+ * L'adresse figure déjà publiquement sur kinetic-distro.com : la reprendre ici
+ * n'expose rien de nouveau.
+ */
+export const contact = {
+  name: 'Peter Gilroy',
+  role: 'Public Relations, Kinetic Distro',
+  email: 'kinetic-distro@firelovers.fr',
+} as const;
+
 export const links = {
   soundcloud: `https://soundcloud.com/${SOUNDCLOUD_HANDLE}`,
   bandcamp: 'https://kineticdistro.bandcamp.com/music',

@@ -1,3 +1,4 @@
+import { Mail } from 'lucide-react';
 import MainNavbar from '@/components/MainNavbar';
 import AlbumHeroCarousel from '@/components/AlbumHeroCarousel';
 import Discography from '@/components/Discography';
@@ -9,7 +10,7 @@ import Seo from '@/components/Seo';
 import { homeSeo } from '@/lib/seo';
 import VinylPurchase from '@/components/VinylPurchase';
 import KeyVisual from '@/components/KeyVisual';
-import { links, onVinyl } from '@/data/catalog';
+import { contact, links, onVinyl } from '@/data/catalog';
 import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 
 /**
@@ -57,13 +58,34 @@ const Home = () => {
 
           <div data-reveal className="relative z-10 container mx-auto max-w-4xl text-center">
             <h2 className="font-orbitron text-gradient-cyber mb-6 text-4xl font-bold md:text-5xl">
-              Follow Grafenberg
+              Get in touch
             </h2>
             <div className="waveform mx-auto mb-6 max-w-xs" />
             <p className="text-muted-foreground mx-auto mb-12 max-w-2xl text-xl">
-              The full catalogue lives on SoundCloud and Bandcamp. Records are released by
-              Kinetic Distro.
+              Booking, press, sync and licensing — and the full catalogue on SoundCloud and
+              Bandcamp.
             </p>
+
+            {/* Le contact passe AVANT les liens de plateformes.
+                Quelqu'un qui descend jusqu'ici cherche à joindre quelqu'un ;
+                celui qui voulait seulement écouter a déjà cliqué plus haut. */}
+            <div className="glass hover:glow-accent mb-6 rounded-2xl p-8 transition-all duration-500">
+              <a
+                href={`mailto:${contact.email}`}
+                className="group inline-flex flex-col items-center gap-1"
+              >
+                <span className="text-accent mb-3 inline-flex items-center gap-2 text-sm uppercase tracking-[0.2em]">
+                  <Mail className="h-4 w-4" aria-hidden="true" />
+                  Contact
+                </span>
+                <span className="font-orbitron text-foreground group-hover:text-accent text-xl font-bold transition-colors duration-300 md:text-2xl">
+                  {contact.email}
+                </span>
+                <span className="text-muted-foreground mt-2 text-sm">
+                  {contact.name} — {contact.role}
+                </span>
+              </a>
+            </div>
 
             <div className="glass hover:glow-cyan rounded-2xl p-8 transition-all duration-500">
               <div className="flex flex-wrap justify-center gap-4">

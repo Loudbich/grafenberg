@@ -21,6 +21,7 @@
  */
 
 import { otherArtists, labelUrl } from '@/data/roster';
+import { contact } from '@/data/releases';
 import {
   albums,
   catalogue,
@@ -116,6 +117,15 @@ export const artistEntity = ({ deep = false } = {}) => ({
   description:
     `Producer, composer and world-builder. ${spellOut(soloCount)[0].toUpperCase()}${spellOut(soloCount).slice(1)} solo albums and ${spellOut(collabCount)} collaborative records with Broken Shaman, released by Kinetic Distro.`,
   recordLabel: { '@id': ID.label },
+  // Le contact professionnel, déclaré : c'est ce qui permet à un moteur ou à un
+  // assistant de répondre « comment joindre Grafenberg » au lieu de renvoyer
+  // vers une page où il faudra chercher.
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'booking, press and licensing',
+    name: contact.name,
+    email: contact.email,
+  },
   sameAs: [links.soundcloud, links.bandcamp, links.label],
   ...(deep && {
     album: albums.map((release) => ({ '@id': ID.album(release.slug) })),
