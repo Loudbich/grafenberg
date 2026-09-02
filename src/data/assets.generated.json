@@ -15,6 +15,86 @@
     "w": 640,
     "h": 800
   },
+  "roster-broken-shaman": {
+    "w": 1280,
+    "h": 536
+  },
+  "roster-broken-shaman-tall": {
+    "w": 720,
+    "h": 1279
+  },
+  "roster-chromabone": {
+    "w": 1280,
+    "h": 536
+  },
+  "roster-chromabone-tall": {
+    "w": 720,
+    "h": 1279
+  },
+  "roster-nosfera-disco-club": {
+    "w": 1280,
+    "h": 536
+  },
+  "roster-nosfera-disco-club-tall": {
+    "w": 720,
+    "h": 1279
+  },
+  "roster-vein-mirror": {
+    "w": 1280,
+    "h": 536
+  },
+  "roster-vein-mirror-tall": {
+    "w": 720,
+    "h": 1279
+  },
+  "roster-iron-covenant": {
+    "w": 1280,
+    "h": 536
+  },
+  "roster-iron-covenant-tall": {
+    "w": 720,
+    "h": 1279
+  },
+  "roster-anatolian-mirage": {
+    "w": 1280,
+    "h": 536
+  },
+  "roster-anatolian-mirage-tall": {
+    "w": 720,
+    "h": 1279
+  },
+  "roster-lykke": {
+    "w": 1280,
+    "h": 536
+  },
+  "roster-lykke-tall": {
+    "w": 720,
+    "h": 1280
+  },
+  "roster-unmade-scores": {
+    "w": 1280,
+    "h": 536
+  },
+  "roster-unmade-scores-tall": {
+    "w": 720,
+    "h": 1280
+  },
+  "roster-hollow-static": {
+    "w": 1280,
+    "h": 536
+  },
+  "roster-hollow-static-tall": {
+    "w": 720,
+    "h": 1280
+  },
+  "roster-love-cult": {
+    "w": 1280,
+    "h": 536
+  },
+  "roster-love-cult-tall": {
+    "w": 720,
+    "h": 1280
+  },
   "universe-nyla-vey": {
     "w": 1280,
     "h": 536

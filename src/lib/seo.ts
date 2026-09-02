@@ -20,7 +20,7 @@
  * -----------------------------------------------------------------------------
  */
 
-import { otherArtists, labelUrl } from '@/data/roster';
+import { otherArtists, roster, labelUrl } from '@/data/roster';
 import { contact } from '@/data/releases';
 import {
   albums,
@@ -30,6 +30,7 @@ import {
   links,
   soloCount,
   spellOut,
+  spellOutCapitalised,
   taglineOf,
   type Release,
 } from '@/data/catalog';
@@ -115,7 +116,7 @@ export const artistEntity = ({ deep = false } = {}) => ({
   ],
   foundingLocation: { '@type': 'Country', name: 'France' },
   description:
-    `Producer, composer and world-builder. ${spellOut(soloCount)[0].toUpperCase()}${spellOut(soloCount).slice(1)} solo albums and ${spellOut(collabCount)} collaborative records with Broken Shaman, released by Kinetic Distro.`,
+    `Producer, composer and world-builder. ${spellOutCapitalised(soloCount)} solo albums and ${spellOut(collabCount)} collaborative records with Broken Shaman, released by Kinetic Distro.`,
   recordLabel: { '@id': ID.label },
   // Le contact professionnel, déclaré : c'est ce qui permet à un moteur ou à un
   // assistant de répondre « comment joindre Grafenberg » au lieu de renvoyer
@@ -243,7 +244,9 @@ export function labelSeo(): RouteSeo {
     path: '/label',
     title: 'Kinetic Distro — the label behind Grafenberg',
     description:
-      'The independent label that releases Grafenberg’s records, and the one he directs. Eleven artists working at the intersection of genres, cultures and eras.',
+      // Le décompte est calculé : « Eleven » y était écrit en dur, et le label
+      // est passé à douze artistes le jour où Nyla Vey l'a rejoint.
+      `The independent label that releases Grafenberg’s records, and the one he directs. ${spellOutCapitalised(roster.length)} artists working at the intersection of genres, cultures and eras.`,
     ogType: 'website',
     image: SHARE_IMAGE,
     graph: [

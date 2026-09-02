@@ -21,6 +21,14 @@
 
 import type { Accent } from './releases';
 
+/*
+ * CE FICHIER RESTE PUR : aucune importation de JSON.
+ *
+ * `scripts/sync-assets.mjs` l'importe pour savoir quels bandeaux encoder, et
+ * Node refuse une importation JSON sans attribut de type. Tout ce qui dépend du
+ * manifeste d'encodage vit donc côté navigateur, dans `lib/rosterVisuals.ts`.
+ */
+
 export type RosterArtist = {
   /** Identifiant commun au lien du label et aux fichiers d'image. */
   slug: string;
@@ -81,6 +89,7 @@ export const roster: RosterArtist[] = [
   },
   { slug: 'lykke', name: 'Lykke', genre: 'Scandinavian pop', accent: 'cyan' },
   { slug: 'unmade-scores', name: 'Unmade Scores', genre: 'Cinematic / Score', accent: 'violet' },
+  { slug: 'nyla-vey', name: 'Nyla Vey', genre: 'Cinematic pop / Voice', accent: 'magenta' },
   {
     slug: 'hollow-static',
     name: 'Hollow Static',
@@ -91,13 +100,19 @@ export const roster: RosterArtist[] = [
 ];
 
 /**
- * Les artistes que la grille montre : tout le roster sauf Grafenberg.
+ * Les artistes que la grille montre.
  *
- * Une carte « Grafenberg » renvoyant vers kinetic-distro.com, sur le site de
- * Grafenberg, enverrait le visiteur découvrir ailleurs celui dont il lit déjà
- * les pages. La page présente donc les autres.
+ * Deux exclusions, pour deux raisons différentes.
  *
- * Filtré plutôt que retiré du tableau : le roster compte bien onze artistes,
- * c'est ce que la page annonce, et ce nombre doit rester vrai.
+ * GRAFENBERG — une carte à son nom renvoyant vers kinetic-distro.com, sur son
+ * propre site, enverrait le visiteur découvrir ailleurs celui dont il lit déjà
+ * les pages.
+ *
+ * Le second filtre — celui des artistes sans bandeau — est appliqué par la
+ * page, qui seule peut lire le manifeste d'encodage. Voir `lib/rosterVisuals`.
+ *
+ * Aucun de ces filtres ne touche `roster` : le label compte bien douze
+ * artistes, c'est ce que la page annonce, et ce nombre doit rester vrai même
+ * quand la grille en montre moins.
  */
 export const otherArtists: RosterArtist[] = roster.filter((a) => a.slug !== 'grafenberg');

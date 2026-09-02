@@ -284,6 +284,13 @@ async function encodeRoster(roster) {
           .webp({ quality: preset.quality, effort: 5 })
           .toFile(join(OUT_ROSTER, out));
         after += info.size;
+        // Inscrit au manifeste : c'est ce qui permet à la page de savoir quels
+        // artistes ont leurs bandeaux, au lieu de porter des exceptions écrites
+        // à la main pour ceux qui n'en ont pas.
+        if (widest) {
+          const cle = `roster-${artiste.slug}${preset.suffix ? `-${preset.suffix}` : ''}`;
+          dimensions[cle] = { w: info.width, h: info.height };
+        }
       }
     }
   }

@@ -212,6 +212,12 @@ export function spellOut(n: number): string {
   return mots[n] ?? String(n);
 }
 
+/** Le même nombre, en tête de phrase. */
+export const spellOutCapitalised = (n: number): string => {
+  const mot = spellOut(n);
+  return mot[0].toUpperCase() + mot.slice(1);
+};
+
 /** Les sorties disponibles en vinyle. Une seule à ce jour. */
 export const onVinyl: Release[] = catalogue.filter((r) => r.vinyl);
 

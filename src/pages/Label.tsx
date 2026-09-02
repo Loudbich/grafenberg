@@ -6,15 +6,15 @@ import CursorTrail from '@/components/CursorTrail';
 import Seo from '@/components/Seo';
 import { labelSeo } from '@/lib/seo';
 import { otherArtists, roster, labelUrl, type RosterArtist } from '@/data/roster';
-import { links, spellOut } from '@/data/catalog';
+import { links, spellOutCapitalised } from '@/data/catalog';
 import { accentOf } from '@/lib/accent';
+import { hasTallVisual, hasWideVisual } from '@/lib/rosterVisuals';
 import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
 
 /**
  * KINETIC DISTRO — LA PAGE PASSERELLE
  * -----------------------------------------------------------------------------
- * Les onze artistes du label, chacun renvoyant à sa page sur
- * kinetic-distro.com.
+ * Les artistes du label, chacun renvoyant à sa page sur kinetic-distro.com.
  *
  * ELLE NE RECOPIE RIEN. Pas de biographies, pas de discographies : le site du
  * label les tient déjà, et les dupliquer donnerait deux versions à maintenir
@@ -32,9 +32,9 @@ import { useRevealOnScroll } from '@/hooks/useRevealOnScroll';
  * Une carte d'artiste.
  *
  * Deux cadrages, comme le visuel clé : cinémascope à partir de `md`, portrait
- * en dessous. Iron Covenant n'a que le portrait — son fichier large s'est
- * révélé être un fichier audio renommé — d'où le repli, qui vaut aussi pour
- * tout artiste ajouté avant que ses visuels ne soient prêts.
+ * en dessous. Le cadrage large est facultatif — la carte retombe sur le
+ * portrait quand il manque, ce qui couvre le cas d'un artiste ajouté avant que
+ * ses visuels ne soient tous prêts.
  */
 const ArtistCard = ({ artist, wide }: { artist: RosterArtist; wide: boolean }) => {
   const style = accentOf(artist.accent);
@@ -62,11 +62,11 @@ const ArtistCard = ({ artist, wide }: { artist: RosterArtist; wide: boolean }) =
           alt={artist.name}
           loading="lazy"
           decoding="async"
-          // Le rapport est imposé, pas subi. Sans lui, la carte d'Iron
-          // Covenant — qui retombe sur son cadrage portrait faute de visuel
-          // large — mesurait 970 px de haut contre 229 pour les dix autres, et
-          // crevait la grille. `object-cover` recadre au centre : c'est une
-          // perte assumée sur une carte, contre une rangée disloquée.
+          // Le rapport est imposé, pas subi. Une carte retombant sur son
+          // cadrage portrait faute de visuel large mesurait 970 px de haut
+          // contre 229 pour les autres, et crevait la grille. `object-cover`
+          // recadre au centre : une perte assumée sur une carte, contre une
+          // rangée disloquée.
           className="aspect-[9/16] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03] md:aspect-[2.39/1]"
         />
       </picture>
@@ -109,10 +109,8 @@ const Label = () => {
             </h1>
             <div className="waveform mx-auto mb-8 max-w-xs" />
             <p className="text-muted-foreground mx-auto max-w-2xl text-lg leading-relaxed">
-              The independent label that releases Grafenberg's records — and the one he directs.
-              {' '}
-              {spellOut(roster.length)[0].toUpperCase()}
-              {spellOut(roster.length).slice(1)} artists working at the intersection of genres,
+              The independent label that releases Grafenberg's records — and the one he directs.{' '}
+              {spellOutCapitalised(roster.length)} artists working at the intersection of genres,
               cultures and eras, Grafenberg among them. Each carries a complete world rather than a
               track.
             </p>
@@ -130,15 +128,13 @@ const Label = () => {
 
         <div data-reveal className="container mx-auto max-w-6xl">
           <div className="grid gap-6 md:grid-cols-2">
-            {otherArtists.map((artist) => (
-              <ArtistCard
-                key={artist.slug}
-                artist={artist}
-                // Le cadrage large n'est proposé que lorsqu'il existe : sans ce
-                // test, la balise <source> pointerait vers un fichier absent et
-                // la carte d'Iron Covenant resterait vide sur écran large.
-                wide={artist.slug !== 'iron-covenant'}
-              />
+            {/* La grille ne montre que les artistes dont les bandeaux ont été
+                encodés. Le test vient du manifeste et non d'une exception
+                écrite ici : celle qui existait — `slug !== 'iron-covenant'` —
+                a survécu à la réparation de son fichier et aurait masqué son
+                bandeau une fois celui-ci valide. */}
+            {otherArtists.filter((a) => hasTallVisual(a.slug)).map((artist) => (
+              <ArtistCard key={artist.slug} artist={artist} wide={hasWideVisual(artist.slug)} />
             ))}
           </div>
 

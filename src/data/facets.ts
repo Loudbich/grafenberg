@@ -37,6 +37,7 @@ export const facets: Facet[] = [
     description:
       'The permanent voice of the solo work — intimacy, seduction and controlled intensity, not a guest feature.',
     accent: 'magenta',
+    href: 'https://www.kinetic-distro.com/roster/nyla-vey/',
   },
   {
     slug: 'broken-shaman',
