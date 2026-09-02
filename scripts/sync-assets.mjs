@@ -258,10 +258,37 @@ async function encodeRoster(roster) {
 
   for (const artiste of roster) {
     for (const [cle, preset] of [['wide', ROSTER_WIDE], ['tall', ROSTER_TALL]]) {
-      const source = trouve[cle].get(artiste.slug);
+      let source = trouve[cle].get(artiste.slug);
+
+      /**
+       * Le cadrage portrait, dérivé du large quand il manque.
+       *
+       * La grille est faite de cartes portrait sur téléphone : sans ce
+       * fichier, l'artiste en est absent. Plutôt que de l'exclure, on taille
+       * le portrait dans le bandeau large.
+       *
+       * `entropy` et non `centre` ni `attention` : les trois ont été
+       * comparées sur le bandeau de Nyla Vey, dont le nom occupe la gauche et
+       * le visage la droite. Le centre coupait le nom en deux, `attention`
+       * tombait sur le ciel vide, `entropy` a cadré le visage proprement.
+       *
+       * Le nom peint est perdu au recadrage — sans conséquence ici : la carte
+       * du roster écrit déjà le nom par-dessus, contrairement à celles de
+       * « The wider universe ». Un portrait fait à la main reste préférable ;
+       * ceci évite seulement qu'un artiste disparaisse en attendant.
+       */
+      let derive = false;
+      if (!source && cle === 'tall') {
+        source = trouve.wide.get(artiste.slug);
+        derive = Boolean(source);
+      }
+
       if (!source) {
         warn(`${artiste.name} : pas de visuel « ${cle} ».`);
         continue;
+      }
+      if (derive) {
+        warn(`${artiste.name} : portrait dérivé du bandeau large (recadrage entropique).`);
       }
 
       let meta;
@@ -279,8 +306,17 @@ async function encodeRoster(roster) {
       for (const width of preset.widths) {
         const widest = width === preset.widths[preset.widths.length - 1];
         const out = widest ? `${base}.webp` : `${base}-${width}.webp`;
-        const info = await sharp(source)
-          .resize({ width, withoutEnlargement: true })
+        // Un portrait dérivé est recadré au rapport 9:16 de la carte ; un
+        // fichier fourni est simplement redimensionné, son cadrage étant déjà
+        // celui qu'on veut.
+        const pipeline = derive
+          ? sharp(source).resize(width, Math.round((width * 16) / 9), {
+              fit: 'cover',
+              position: 'entropy',
+            })
+          : sharp(source).resize({ width, withoutEnlargement: true });
+
+        const info = await pipeline
           .webp({ quality: preset.quality, effort: 5 })
           .toFile(join(OUT_ROSTER, out));
         after += info.size;
