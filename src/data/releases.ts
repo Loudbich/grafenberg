@@ -89,7 +89,7 @@ export const releases: CuratedRelease[] = [
     soundcloud: 'what-the-system-missed',
     bandcamp: 'https://kineticdistro.bandcamp.com/album/what-the-system-missed',
     // Violet : la pochette est scindée en deux moitiés, violette du côté de
-    // Nyla Vey et dorée de celui de Nehir Sedef. Le violet reprend la première
+    // Nyla Corvey et dorée de celui de Nehir Sedef. Le violet reprend la première
     // et tranche avec le cyan de l'album qui le suit dans la grille.
     accent: 'violet',
   },

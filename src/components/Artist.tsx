@@ -35,8 +35,8 @@ const biography = [
   'In the early 2000s, Grafenberg released a series of electronic EPs through the Traumwelten label. These first recordings established the foundations of an artistic language already driven by atmosphere, movement and emotional contrast.',
   'Grafenberg re-emerged in the 2020s not as a nostalgia project, but as a producer, composer and world-builder without borders.',
   `Across ${spellOut(soloCount)} solo albums, the project has continuously evolved, moving through French touch, synthwave, cosmic disco, cinematic electronica, alternative pop and darker forms of club music. Genres are treated as raw materials rather than boundaries. Analog warmth can collide with digital tension. A euphoric bassline can carry a trace of melancholy. A dance track can become a scene from a film that has never existed.`,
-  'At the heart of Grafenberg’s solo work stands Nyla Vey, the project’s permanent singer and privileged collaborator. Her voice gives a human presence to Grafenberg’s shifting electronic landscapes, moving between intimacy, seduction, vulnerability and controlled intensity. She is not simply a featured vocalist, but an essential part of the project’s identity.',
-  'Grafenberg’s universe extends far beyond the solo discography. Two collaborative albums with Broken Shaman brought electronic architecture into contact with fractured hip-hop, cinematic production and urban soul. Grafenberg also produced the debut album by Hollow Static, helping to shape its world of impossible memories, emotional distortion and invented lives. Collaborations with Chromabone have opened further passages into darker club environments, corrupted signals and radical reinterpretations.',
+  'At the heart of Grafenberg’s solo work stands Nyla Corvey, the project’s permanent singer and privileged collaborator. Her voice gives a human presence to Grafenberg’s shifting electronic landscapes, moving between intimacy, seduction, vulnerability and controlled intensity. She is not simply a featured vocalist, but an essential part of the project’s identity.',
+  'Grafenberg’s universe extends far beyond the solo discography. Two collaborative albums with Broken Shaman brought electronic architecture into contact with fractured hip-hop, cinematic production and urban soul. Grafenberg also produced the debut album by Residual Bloom, helping to shape its world of impossible memories, emotional distortion and invented lives. Collaborations with Chromabone have opened further passages into darker club environments, corrupted signals and radical reinterpretations.',
   'As artistic director and mastermind of Kinetic Distro, Grafenberg connects artists, records, characters and visual identities into a constantly expanding creative universe. The role is not merely to produce music, but to recognise what each project could become and help it find its own language.',
   'Yet behind the producer, the curator and the architect, Grafenberg remains an artist first. A music lover still driven by the same impulse that existed behind the decks in the 1990s: the search for the next sound, the next emotion and the next door waiting to be opened.',
 ];
@@ -47,7 +47,7 @@ const biography = [
  * Le bandeau occupe le haut de la carte, sans voile ni texte par-dessus — son
  * nom y est déjà peint. La description est posée en dessous, sur le verre, où
  * son contraste ne dépend pas de la luminosité de l'image : celles-ci vont du
- * blanc crème de Nyla Vey au noir de Kinetic Distro, et aucun voile unique
+ * blanc crème de Nyla Corvey au noir de Kinetic Distro, et aucun voile unique
  * n'aurait servi les deux.
  */
 const FacetCard = ({ facet }: { facet: Facet }) => {
@@ -74,7 +74,7 @@ const FacetCard = ({ facet }: { facet: Facet }) => {
   const base = 'glass group block overflow-hidden rounded-xl transition-all duration-500';
   // Le soulèvement et le halo ne s'appliquent qu'aux cartes qui mènent quelque
   // part. Une carte qui réagit au survol sans rien faire promet un clic qu'elle
-  // ne tient pas — et Nyla Vey n'a pas de page où envoyer qui que ce soit.
+  // ne tient pas — toute facette n'a pas forcément de page où envoyer.
   const classes = facet.href ? `${base} hover:-translate-y-2 ${style.glow}` : base;
 
   // Un lien interne passe par le routeur, un lien externe est une ancre, et

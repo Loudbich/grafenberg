@@ -68,7 +68,7 @@ const assetUrl = (path: string) =>
  * L'image de partage par défaut, pour les pages qui n'en ont pas.
  *
  * Le visuel clé plutôt que la pochette du dernier album : il montre Grafenberg
- * et Nyla Vey, porte le lettrage, et son cadrage 2,39:1 tient dans la vignette
+ * et Nyla Corvey, porte le lettrage, et son cadrage 2,39:1 tient dans la vignette
  * des réseaux sociaux sans être rogné — là où une pochette carrée y est
  * amputée en haut et en bas. Les pages d'album gardent la leur, qui est
  * évidemment le bon visuel pour elles.
@@ -245,7 +245,7 @@ export function labelSeo(): RouteSeo {
     title: 'Kinetic Distro — the label behind Grafenberg',
     description:
       // Le décompte est calculé : « Eleven » y était écrit en dur, et le label
-      // est passé à douze artistes le jour où Nyla Vey l'a rejoint.
+      // change quand le label recrute ou se sépare d'un artiste.
       `The independent label that releases Grafenberg’s records, and the one he directs. ${spellOutCapitalised(roster.length)} artists working at the intersection of genres, cultures and eras.`,
     ogType: 'website',
     image: SHARE_IMAGE,

@@ -25,7 +25,7 @@
  * -----------------------------------------------------------------------------
  */
 
-import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
@@ -138,11 +138,27 @@ const ROSTER_TALL = { widths: [480, 720], quality: 78, suffix: 'tall' };
  * Le nom est PEINT DANS L'IMAGE, chacun dans sa propre typographie. Le site
  * n'en superpose donc aucun : ce serait l'écrire deux fois. C'est aussi
  * pourquoi ces fichiers ne reçoivent ni voile ni dégradé — les luminosités
- * vont du blanc crème de Nyla Vey au noir de Kinetic Distro, et un même voile
+ * vont du blanc crème de Nyla Corvey au noir de Kinetic Distro, et un même voile
  * ne peut pas servir les deux.
  */
 const UNIVERSE_DIR = 'assets/the wider universe';
 const UNIVERSE = { widths: [640, 1280], quality: 80 };
+
+/**
+ * À défaut, le bandeau du roster.
+ *
+ * Les deux dossiers contiennent des bandeaux des mêmes artistes, et ils ne
+ * vieillissent pas ensemble : quand un artiste change de nom, le nouveau
+ * lettrage arrive d'abord dans le dossier du roster. Le dossier « wider
+ * universe » gardait alors un visuel portant l'ancien nom PEINT DANS L'IMAGE —
+ * que rien dans le site ne peut corriger, puisque c'est ce lettrage qui tient
+ * lieu de titre sur ces cartes.
+ *
+ * Le repli se fait sur le slug, donc uniquement vers un fichier déjà renommé au
+ * nouveau nom. Un fichier resté à l'ancien nom ne répond plus au slug demandé,
+ * et le bandeau est signalé manquant — préférable à l'afficher faux.
+ */
+const UNIVERSE_FALLBACK_DIR = ROSTER_DIR;
 
 const dimensions = {};
 
@@ -268,7 +284,7 @@ async function encodeRoster(roster) {
        * le portrait dans le bandeau large.
        *
        * `entropy` et non `centre` ni `attention` : les trois ont été
-       * comparées sur le bandeau de Nyla Vey, dont le nom occupe la gauche et
+       * comparées sur le bandeau de Nyla Corvey, dont le nom occupe la gauche et
        * le visage la droite. Le centre coupait le nom en deux, `attention`
        * tombait sur le ciel vide, `entropy` a cadré le visage proprement.
        *
@@ -358,9 +374,15 @@ async function encodeUniverse(sujets) {
       .replace(/^-|-$/g, '');
 
   const trouve = new Map();
-  for (const f of readdirSync(dir, { withFileTypes: true })) {
-    if (!f.isFile() || !/\.(webp|png|jpe?g)$/i.test(f.name)) continue;
-    trouve.set(slugify(f.name.replace(/\.[^.]+$/, '')), join(dir, f.name));
+  // Le dossier de repli est indexé EN PREMIER, si bien que le dossier dédié
+  // écrase ce qu'il propose : un bandeau composé pour la section l'emporte
+  // toujours sur un bandeau de roster recyclé.
+  for (const d of [resolve(root, UNIVERSE_FALLBACK_DIR), dir]) {
+    if (!existsSync(d)) continue;
+    for (const f of readdirSync(d, { withFileTypes: true })) {
+      if (!f.isFile() || !/\.(webp|png|jpe?g)$/i.test(f.name)) continue;
+      trouve.set(slugify(f.name.replace(/\.[^.]+$/, '')), join(d, f.name));
+    }
   }
 
   let before = 0;
@@ -402,6 +424,37 @@ async function encodeUniverse(sujets) {
   return { before, after };
 }
 
+/**
+ * Supprime d'un dossier de sortie tout fichier qu'aucune entrée du manifeste ne
+ * réclame.
+ *
+ * Le rattachement se fait sur le nom de base, les variantes de largeur étant
+ * dérivées : `residual-bloom.webp`, `-640.webp`, `-tall.webp` et
+ * `-tall-480.webp` appartiennent tous au même artiste.
+ */
+function elague(outDir, prefixe) {
+  if (!existsSync(outDir)) return;
+
+  const connus = new Set(
+    Object.keys(dimensions)
+      .filter((k) => k.startsWith(`${prefixe}-`))
+      .map((k) => k.slice(prefixe.length + 1)),
+  );
+
+  // Un manifeste vide signifie que l'encodage n'a rien produit — une source
+  // absente, un dossier renommé. Élaguer là-dessus viderait le dossier entier.
+  if (connus.size === 0) return;
+
+  for (const f of readdirSync(outDir)) {
+    if (!/\.webp$/i.test(f)) continue;
+    // `nom-640.webp` → `nom` ; `nom-tall-480.webp` → `nom-tall`.
+    const base = f.replace(/\.webp$/i, '').replace(/-\d+$/, '');
+    if (connus.has(base)) continue;
+    rmSync(join(outDir, f));
+    log(`élagué : ${prefixe}/${f}`);
+  }
+}
+
 async function main() {
   mkdirSync(OUT_DIR, { recursive: true });
   mkdirSync(OUT_ROSTER, { recursive: true });
@@ -426,6 +479,14 @@ async function main() {
   const u = await encodeUniverse(facets.map((f) => f.slug));
   before += u.before;
   after += u.after;
+
+  // Ce qui n'est plus au manifeste n'est plus déployé.
+  //
+  // Le label s'est séparé d'un artiste et trois autres ont changé de nom : sans
+  // cela, `public/roster/` gardait seize fichiers portant les anciens slugs,
+  // téléversés à chaque déploiement et indexables par un moteur.
+  elague(OUT_ROSTER, 'roster');
+  elague(OUT_UNIVERSE, 'universe');
 
   writeFileSync(MANIFEST, JSON.stringify(dimensions, null, 2) + '\n');
 

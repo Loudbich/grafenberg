@@ -8,7 +8,7 @@ import type { Accent } from './releases';
  * les montre.
  *
  * AUCUN TITRE N'EST ÉCRIT ICI, et c'est délibéré : chaque bandeau porte son nom
- * peint dans l'image, dans sa propre typographie — le serif de Nyla Vey, la
+ * peint dans l'image, dans sa propre typographie — le serif de Nyla Corvey, la
  * pierre fendue de Broken Shaman, le lockup de Kinetic Distro. Superposer un
  * `<h4>` l'écrirait une seconde fois, dans une troisième police. Le nom vit
  * donc dans l'attribut `alt`, où il sert aux lecteurs d'écran sans être dessiné.
@@ -32,12 +32,12 @@ export type Facet = {
 
 export const facets: Facet[] = [
   {
-    slug: 'nyla-vey',
-    name: 'Nyla Vey',
+    slug: 'nyla-corvey',
+    name: 'Nyla Corvey',
     description:
       'The permanent voice of the solo work — intimacy, seduction and controlled intensity, not a guest feature.',
     accent: 'magenta',
-    href: 'https://www.kinetic-distro.com/roster/nyla-vey/',
+    href: 'https://www.kinetic-distro.com/roster/nyla-corvey/',
   },
   {
     slug: 'broken-shaman',
@@ -48,12 +48,12 @@ export const facets: Facet[] = [
     href: 'https://www.kinetic-distro.com/roster/broken-shaman/',
   },
   {
-    slug: 'hollow-static',
-    name: 'Hollow Static',
+    slug: 'residual-bloom',
+    name: 'Residual Bloom',
     description:
       'Grafenberg produced their debut album — impossible memories, emotional distortion, invented lives.',
     accent: 'violet',
-    href: 'https://www.kinetic-distro.com/roster/hollow-static/',
+    href: 'https://www.kinetic-distro.com/roster/residual-bloom/',
   },
   {
     slug: 'kinetic-distro',

@@ -47,14 +47,6 @@
     "w": 720,
     "h": 1279
   },
-  "roster-iron-covenant": {
-    "w": 1280,
-    "h": 536
-  },
-  "roster-iron-covenant-tall": {
-    "w": 720,
-    "h": 1279
-  },
   "roster-anatolian-mirage": {
     "w": 1280,
     "h": 536
@@ -79,31 +71,31 @@
     "w": 720,
     "h": 1280
   },
-  "roster-nyla-vey": {
+  "roster-nyla-corvey": {
     "w": 1280,
     "h": 536
   },
-  "roster-nyla-vey-tall": {
+  "roster-nyla-corvey-tall": {
     "w": 720,
-    "h": 1280
+    "h": 1279
   },
-  "roster-hollow-static": {
+  "roster-residual-bloom": {
     "w": 1280,
     "h": 536
   },
-  "roster-hollow-static-tall": {
+  "roster-residual-bloom-tall": {
     "w": 720,
-    "h": 1280
+    "h": 1279
   },
-  "roster-love-cult": {
+  "roster-somerval": {
     "w": 1280,
     "h": 536
   },
-  "roster-love-cult-tall": {
+  "roster-somerval-tall": {
     "w": 720,
-    "h": 1280
+    "h": 1279
   },
-  "universe-nyla-vey": {
+  "universe-nyla-corvey": {
     "w": 1280,
     "h": 536
   },
@@ -111,7 +103,7 @@
     "w": 1280,
     "h": 536
   },
-  "universe-hollow-static": {
+  "universe-residual-bloom": {
     "w": 1280,
     "h": 536
   },

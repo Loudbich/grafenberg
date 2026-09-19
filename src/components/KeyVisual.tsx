@@ -1,8 +1,8 @@
 /**
- * LE VISUEL CLÉ — Grafenberg & Nyla Vey
+ * LE VISUEL CLÉ — Grafenberg & Nyla Corvey
  * -----------------------------------------------------------------------------
  * Un bandeau pleine largeur, posé juste avant la section « The Artist » : il
- * montre les deux personnes que la biographie présente ensuite, et Nyla Vey y
+ * montre les deux personnes que la biographie présente ensuite, et Nyla Corvey y
  * est au premier plan comme elle l'est dans le texte.
  *
  * AUCUN TEXTE PAR-DESSUS. L'image porte déjà le lettrage GRAFENBERG ; en
@@ -22,7 +22,7 @@
 import { dimsOf } from '@/data/assets';
 
 const KeyVisual = () => (
-  <section aria-label="Grafenberg & Nyla Vey" className="relative">
+  <section aria-label="Grafenberg & Nyla Corvey" className="relative">
     <picture>
       <source
         media="(max-width: 767px)"
@@ -35,7 +35,7 @@ const KeyVisual = () => (
         src="/brand/key-visual.webp"
         srcSet="/brand/key-visual-1280.webp 1280w, /brand/key-visual-1920.webp 1920w, /brand/key-visual.webp 2560w"
         sizes="100vw"
-        alt="Grafenberg and Nyla Vey on a rooftop, against a neon-lit night city"
+        alt="Grafenberg and Nyla Corvey on a rooftop, against a neon-lit night city"
         width={dimsOf('key-visual').w}
         height={dimsOf('key-visual').h}
         // Le bandeau est loin sous la ligne de flottaison : rien ne justifie de

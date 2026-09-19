@@ -48,55 +48,55 @@ export const labelUrl = (slug: string) => `https://www.kinetic-distro.com/roster
  * Grafenberg y figure parce que c'est un fait — il est de ce roster, et le
  * décompte affiché sur la page s'en déduit. Mais il n'apparaît pas dans la
  * grille : voir `otherArtists`.
+ *
+ * LES NOMS ET LES GENRES SONT RELEVÉS SUR kinetic-distro.com/roster/, non
+ * inventés. Trois artistes ont changé de nom — Nyla Vey est devenue Nyla
+ * Corvey, Hollow Static Residual Bloom, Love Cult Somerval — et sept autres
+ * ont vu leur genre reformulé. Les slugs suivent, puisqu'ils servent à la fois
+ * de lien vers le label et de clé pour les fichiers d'image.
  */
 export const roster: RosterArtist[] = [
-  { slug: 'grafenberg', name: 'Grafenberg', genre: 'Dark synthwave / Darkwave', accent: 'magenta' },
+  { slug: 'grafenberg', name: 'Grafenberg', genre: 'French electronics / Cosmic disco', accent: 'magenta' },
   {
     slug: 'broken-shaman',
     name: 'Broken Shaman',
-    genre: 'Ritual electronics / Industrial',
-    accent: 'orange',
+    genre: 'Fractured hip-hop / Experimental electronics',
+    accent: 'violet',
   },
-  {
-    slug: 'chromabone',
-    name: 'Chromabone',
-    genre: 'Techno / Remix architecture',
-    accent: 'magenta',
-  },
+  { slug: 'chromabone', name: 'Chromabone', genre: 'Techno / Remix architecture', accent: 'magenta' },
   {
     slug: 'nosfera-disco-club',
     name: 'Nosfera Disco Club',
-    genre: 'Dark disco / Italo',
+    genre: 'Dark disco / Mutant club',
     accent: 'violet',
   },
   {
     slug: 'vein-mirror',
-    name: 'VEIN//Mirror',
-    genre: 'Dark pop / Cinematic ritual',
-    accent: 'cyan',
-  },
-  {
-    slug: 'iron-covenant',
-    name: 'Iron Covenant',
-    genre: 'Thrash metal / East Coast',
-    accent: 'orange',
+    name: 'VEIN//MIRROR',
+    genre: 'Industrial / Emotional architecture',
+    accent: 'magenta',
   },
   {
     slug: 'anatolian-mirage',
     name: 'Anatolian Mirage',
-    genre: 'Psychedelic / Microtonal',
-    accent: 'orange',
+    genre: 'Anatolian psychedelia / Dream-funk',
+    accent: 'violet',
   },
-  { slug: 'lykke', name: 'Lykke', genre: 'Scandinavian pop', accent: 'cyan' },
-  { slug: 'unmade-scores', name: 'Unmade Scores', genre: 'Cinematic / Score', accent: 'violet' },
-  { slug: 'nyla-vey', name: 'Nyla Vey', genre: 'Cinematic pop / Voice', accent: 'magenta' },
+  { slug: 'lykke', name: 'Lykke', genre: 'Swedish art-pop / Electronics', accent: 'magenta' },
   {
-    slug: 'hollow-static',
-    name: 'Hollow Static',
-    genre: 'Dream pop / Post-human soul',
-    accent: 'cyan',
+    slug: 'unmade-scores',
+    name: 'Unmade Scores',
+    genre: 'Imaginary cinema / Score',
+    accent: 'violet',
   },
-  { slug: 'love-cult', name: 'Love Cult', genre: 'Ritual pop / Drone', accent: 'violet' },
+  { slug: 'nyla-corvey', name: 'Nyla Corvey', genre: 'Ethereal pop / Chamber', accent: 'magenta' },
+  {
+    slug: 'residual-bloom',
+    name: 'Residual Bloom',
+    genre: 'Dream pop / Post-human soul',
+    accent: 'violet',
+  },
+  { slug: 'somerval', name: 'Somerval', genre: 'Dark electronic pop / Ritual club', accent: 'magenta' },
 ];
 
 /**
